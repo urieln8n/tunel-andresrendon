@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Andrés Rendón · Webs 3D para negocios de Barcelona</title>
+<meta name="description" content="Diseño y construyo webs 3D para negocios de Barcelona, preparadas para que te encuentren Google y ChatGPT y para que el cliente te escriba por WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/*
+VOICE: estudio joven de Barcelona; directo, seguro, cercano.
+IDEA: un túnel de luz que recorres con el scroll: cada parada es un capítulo de lo que hago.
+PICTURE: el propio túnel en tiempo real, con anillos, partículas y los proyectos flotando.
+COLOUR and TYPE: grafito profundo, coral terracota de Barcelona y verde mar; Space Grotesk + Inter.
+LAYOUT: texto en la mitad izquierda (abajo en el móvil), navegación lateral discreta.
+*/
+:root{color-scheme:dark;--bg:#0b0a0d;--ink:#f4efe9;--soft:#b9b1aa;--coral:#ff6a4a;--mar:#3fd6c6;--card:#17141a}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font:17px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;line-height:1.04;margin:0 0 .35em;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(40px,6.2vw,76px)}h2{font-size:clamp(32px,4.4vw,54px)}h3{font-size:20px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--mar);outline-offset:3px}
+#escena{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+.velo{position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(120% 90% at 50% 50%,transparent 55%,#000a 100%)}
+.velo-txt{position:fixed;inset:0;pointer-events:none;z-index:2;display:none;
+  background:linear-gradient(90deg,#0b0a0df0 0%,#0b0a0dcc 30%,#0b0a0d55 52%,transparent 66%)}
+.tunel .velo-txt{display:block}
+.grano{position:fixed;inset:-50%;pointer-events:none;z-index:1;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.top{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px max(4vw,16px)}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 18px "Space Grotesk",sans-serif}
+.marca b{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:var(--coral);color:#140806;font-size:15px}
+.marca small{display:block;font:500 12px Inter,sans-serif;color:var(--soft)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;background:var(--coral);color:#160805;font-weight:600;text-decoration:none;border:0;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn-2{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px #ffffff55}
+.top .btn{min-height:42px;padding:0 18px;font-size:15px}
+
+/* Capítulos: en modo túnel van fijos y aparecen según la parada */
+.capitulos{position:relative;z-index:3}
+.cap{min-height:100vh;display:flex;align-items:center;padding:110px max(5vw,18px) 60px}
+.cap>div{max-width:560px}
+.eti{display:inline-block;margin-bottom:14px;padding:4px 12px;border-radius:999px;background:#ff6a4a22;color:var(--coral);font-weight:600;font-size:14px}
+.cap p{color:var(--soft);font-size:18px;max-width:52ch}
+.acc{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.precios{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.precios li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 18px;border-radius:14px;background:#17141acc;backdrop-filter:blur(6px);border:1px solid #ffffff14}
+.precios b{font-family:"Space Grotesk",Inter,sans-serif;font-size:22px;color:var(--ink);white-space:nowrap}
+.precios span{color:var(--soft);font-size:15px}
+.precios strong{display:block;color:var(--ink);font-size:16px}
+.proy{list-style:none;padding:0;margin:16px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.proy a{display:block;padding:10px 14px;border-radius:12px;background:#17141acc;border:1px solid #ffffff14;text-decoration:none;backdrop-filter:blur(6px)}
+.proy a:hover{border-color:var(--coral)}
+.proy small{display:block;color:var(--mar);font-size:12px;font-weight:600}
+.nota{font-size:14px;color:var(--soft)}
+
+.tunel .capitulos{height:var(--alto,700vh)}
+.tunel .cap{position:fixed;inset:0;opacity:0;visibility:hidden;pointer-events:none;transition:none}
+.tunel .cap.vista{visibility:visible}
+.tunel .cap.vista>div{pointer-events:auto}
+.tunel .cap>div{transform:translateY(calc(var(--d,0)*40px))}
+
+.nav{position:fixed;right:max(2vw,10px);top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:10px}
+.nav button{display:flex;align-items:center;justify-content:flex-end;gap:10px;background:none;border:0;color:var(--soft);cursor:pointer;min-height:28px;padding:0;font:500 13px Inter,sans-serif}
+.nav button i{width:9px;height:9px;border-radius:50%;background:#ffffff40;transition:transform .2s,background .2s}
+.nav button span{opacity:0;transition:opacity .2s}
+.nav button:hover span,.nav button.on span{opacity:1}
+.nav button.on i{background:var(--coral);transform:scale(1.5)}
+.ayuda{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:4;color:var(--soft);font-size:14px;display:flex;flex-direction:column;align-items:center;gap:6px;transition:opacity .4s}
+.ayuda i{width:2px;height:28px;background:linear-gradient(var(--coral),transparent);animation:baja 1.6s infinite}
+@keyframes baja{from{transform:scaleY(0);transform-origin:top}to{transform:scaleY(1);transform-origin:top}}
+.aviso3d{position:fixed;left:16px;bottom:14px;z-index:4;font-size:12px;color:#ffffff66}
+
+/* Sin túnel: página normal, legible y rápida */
+.estatico #escena,.estatico .nav,.estatico .ayuda,.estatico .grano{display:none}
+.estatico body,.estatico{background:radial-gradient(120% 60% at 80% 0%,#3a1610 0%,var(--bg) 60%)}
+.estatico .cap{min-height:auto;padding-block:clamp(48px,9vh,96px)}
+.estatico .cap:first-child{min-height:92vh}
+
+@media (max-width:760px){
+  .tunel .velo-txt{background:linear-gradient(0deg,#0b0a0df2 0%,#0b0a0dcc 38%,transparent 62%)}
+  .tunel .cap{align-items:flex-end;padding:0 18px 40px}
+  .tunel .cap>div{background:linear-gradient(transparent,#0b0a0de6 18%);padding-top:40px;width:100%}
+  .nav{display:none}.top .btn{display:none}.ayuda{display:none}
+  .proy{grid-template-columns:minmax(0,1fr)}
+  .cap p{font-size:16.5px}
+}
+@media (prefers-reduced-motion:reduce){.ayuda i{animation:none}}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+</head>
+<body>
+<canvas id="escena" aria-hidden="true"></canvas>
+<div class="velo"></div><div class="velo-txt"></div><div class="grano"></div>
+
+<header class="top">
+  <a class="marca" href="https://www.andresrendon.com/"><b>AR</b><span>Andrés Rendón<small>IA · Webs 3D · AEO</small></span></a>
+  <a class="btn" href="https://www.andresrendon.com/auditoria-gratis">Auditoría gratis</a>
+</header>
+
+<main class="capitulos" id="capitulos">
+  <section class="cap" data-nombre="Inicio" id="inicio"><div>
+    <span class="eti">Andrés Rendón · Barcelona</span>
+    <h1>Webs que tus clientes recuerdan.</h1>
+    <p>Diseño y construyo webs 3D para negocios de Barcelona. Las preparo para que te encuentren Google y ChatGPT, y para que el cliente te escriba por WhatsApp en un toque.</p>
+    <div class="acc"><a class="btn" href="#proyectos" data-ir="3">Ver proyectos</a><a class="btn btn-2" href="https://www.andresrendon.com/auditoria-gratis">Auditoría gratis</a></div>
+  </div></section>
+
+  <section class="cap" data-nombre="Webs" id="webs"><div>
+    <span class="eti">Qué hago · 1</span>
+    <h2>Webs que se recuerdan</h2>
+    <p>Webs 3D o editoriales, rápidas y pensadas primero para el móvil. Tu producto, tu local o tu oficio en el centro.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="Que te encuentren" id="encuentren"><div>
+    <span class="eti">Qué hago · 2</span>
+    <h2>Que te encuentren</h2>
+    <p>SEO local y AEO: tu negocio bien explicado para Google, Maps y las respuestas de ChatGPT, Perplexity o Gemini.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="Proyectos" id="proyectos"><div>
+    <span class="eti">Proyectos · 6</span>
+    <h2>Webs publicadas, propuestas y productos propios</h2>
+    <p>Cada uno dice lo que es. Pasan volando a tu lado: tócalos para abrirlos.</p>
+    <ul class="proy">
+      <li><a href="https://lacasadejenni.com/"><small>Cliente</small>La Casa de Jenni</a></li>
+      <li><a href="https://avancescampus.andresrendon.com/"><small>Cliente</small>Avancés Campus</a></li>
+      <li><a href="https://genesis.andresrendon.com/"><small>Producto propio</small>Lumbrera</a></li>
+      <li><a href="https://webrescure.andresrendon.com/"><small>Producto propio</small>Web Rescue OS</a></li>
+      <li><a href="https://stylebuddhas.andresrendon.com/"><small>Propuesta</small>Stylebuddhas</a></li>
+      <li><a href="https://hornosjava.andresrendon.com/"><small>Propuesta</small>Hornos JAVA</a></li>
+    </ul>
+  </div></section>
+
+  <section class="cap" data-nombre="Que te escriban" id="escriban"><div>
+    <span class="eti">Qué hago · 3</span>
+    <h2>Que te escriban</h2>
+    <p>Un asistente con IA en tu web y WhatsApp con el mensaje ya escrito. Cada contacto, ordenado en un CRM.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="Precios" id="precios"><div>
+    <span class="eti">Precios</span>
+    <h2>Claros desde el principio</h2>
+    <ul class="precios">
+      <li><span><strong>Web premium</strong>A medida, con SEO local, WhatsApp y formulario</span><b>desde 790 €</b></li>
+      <li><span><strong>Sistema completo</strong>Web, asistente o WhatsApp con IA, CRM y automatizaciones</span><b>desde 1.500 €</b></li>
+      <li><span><strong>Mantenimiento</strong>Cambios, mejoras y soporte cada mes</span><b>desde 97 €/mes</b></li>
+    </ul>
+    <p class="nota">Orientativos. El presupuesto final sale de la auditoría, que es gratis.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="Hablamos" id="hablamos"><div>
+    <span class="eti">Al final del túnel</span>
+    <h2>¿Tu negocio es el siguiente?</h2>
+    <p>Te reviso la web, la ficha de Google y cómo te ve ChatGPT, y te enseño qué cambiaría. Gratis y sin compromiso.</p>
+    <div class="acc"><a class="btn" href="https://www.andresrendon.com/auditoria-gratis">Pedir la auditoría gratis</a><a class="btn btn-2" href="https://www.andresrendon.com/contacto">Escribirme</a></div>
+    <p class="nota" style="margin-top:18px">Sígueme en Instagram: <a href="https://www.instagram.com/andresrendon.ai/">@andresrendon.ai</a></p>
+  </div></section>
+</main>
+
+<nav class="nav" id="nav" aria-label="Capítulos"></nav>
+<div class="ayuda" id="ayuda"><span>Desliza para entrar</span><i></i></div>
+
+<script type="module">
+const raiz = document.documentElement;
+const caps = [...document.querySelectorAll('.cap')];
+const N = caps.length;
+const mov = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let THREE, EffectComposer, RenderPass, UnrealBloomPass, OutputPass;
+const webgl = (() => { try { const c = document.createElement('canvas'); return !!c.getContext('webgl2'); } catch { return false; } })();
+if (mov || !webgl) raiz.classList.add('estatico');
+else {
+  try {
+    THREE = await import('three');
+    ({ EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js'));
+    ({ RenderPass } = await import('three/addons/postprocessing/RenderPass.js'));
+    ({ UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js'));
+    ({ OutputPass } = await import('three/addons/postprocessing/OutputPass.js'));
+    iniciar();
+  } catch (e) { console.warn('Sin túnel:', e); raiz.classList.add('estatico'); }
+}
+
+function iniciar(){
+  raiz.classList.add('tunel');
+  const PANT = 120; // vh de scroll por capítulo
+  document.querySelector('.capitulos').style.setProperty('--alto', (PANT * (N - 1) + 100) + 'vh');
+
+  /* ---------- Escena ---------- */
+  const lienzo = document.getElementById('escena');
+  const ren = new THREE.WebGLRenderer({ canvas: lienzo, antialias: false, powerPreference: 'high-performance' });
+  let pr = Math.min(devicePixelRatio, 1.75);
+  ren.setPixelRatio(pr);
+  ren.setSize(innerWidth, innerHeight);
+  const escena = new THREE.Scene();
+  escena.background = new THREE.Color(0x0b0a0d);
+  escena.fog = new THREE.FogExp2(0x0b0a0d, 0.018);
+  const cam = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.1, 400);
+
+  // Recorrido: una curva suave que serpentea hacia el fondo
+  const pts = [];
+  const LARGO = 420, TRAMOS = 22;
+  for (let i = 0; i <= TRAMOS; i++) {
+    const z = -i * (LARGO / TRAMOS);
+    pts.push(new THREE.Vector3(Math.sin(i * 0.55) * 9, Math.cos(i * 0.42) * 5, z));
+  }
+  const curva = new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.5);
+  const R = 7;
+
+  // Paredes: rejilla con pulsos que viajan, en shader
+  const tubo = new THREE.TubeGeometry(curva, 700, R, 48, false);
+  const matTubo = new THREE.ShaderMaterial({
+    side: THREE.BackSide, fog: false,
+    uniforms: { uT: { value: 0 }, uVel: { value: 0 }, uA: { value: new THREE.Color(0xff6a4a) }, uB: { value: new THREE.Color(0x3fd6c6) } },
+    vertexShader: `varying vec2 vUv; varying float vD; void main(){ vUv=uv; vec4 mv=modelViewMatrix*vec4(position,1.); vD=-mv.z; gl_Position=projectionMatrix*mv; }`,
+    fragmentShader: `uniform float uT,uVel; uniform vec3 uA,uB; varying vec2 vUv; varying float vD;
+      float linea(float x,float w){ float f=abs(fract(x)-.5); return smoothstep(.5-w,.5,f); }
+      void main(){
+        float a=vUv.x*170., r=vUv.y*24.;
+        float g=max(linea(a,.035),linea(r,.03)*.7);
+        float pulso=pow(fract(vUv.x*12.-uT*.25),18.)*1.4;
+        float vena=smoothstep(.985,1.,sin(vUv.y*6.2832*3.+vUv.x*40.+uT*.6)*.5+.5);
+        vec3 c=mix(uA,uB,smoothstep(.2,.8,sin(vUv.x*9.+vUv.y*6.2832)*.5+.5));
+        vec3 col=c*(g*.55+pulso*g*1.6+vena*.6)+vec3(.012,.01,.016);
+        col*= 1.+uVel*.8;
+        float niebla=exp(-vD*.028);
+        gl_FragColor=vec4(col*niebla,1.);
+      }`
+  });
+  escena.add(new THREE.Mesh(tubo, matTubo));
+
+  // Anillos de luz cada cierto tramo
+  const anillos = [];
+  const geoAn = new THREE.TorusGeometry(R * 0.93, 0.05, 8, 96);
+  for (let i = 1; i < 46; i++) {
+    const t = i / 46;
+    const m = new THREE.Mesh(geoAn, new THREE.MeshBasicMaterial({ color: i % 4 ? 0xff6a4a : 0x3fd6c6, transparent: true, opacity: 0.85 }));
+    m.position.copy(curva.getPointAt(t));
+    m.lookAt(curva.getPointAt(Math.min(t + 0.001, 1)));
+    escena.add(m); anillos.push(m);
+  }
+
+  // Polvo de luz dentro del túnel
+  const NP = innerWidth < 760 ? 900 : 1800;
+  const pos = new Float32Array(NP * 3);
+  for (let i = 0; i < NP; i++) {
+    const t = Math.random(), p = curva.getPointAt(t), ang = Math.random() * Math.PI * 2, rr = R * (0.2 + Math.random() * 0.7);
+    pos.set([p.x + Math.cos(ang) * rr, p.y + Math.sin(ang) * rr, p.z], i * 3);
+  }
+  const gp = new THREE.BufferGeometry(); gp.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const polvo = new THREE.Points(gp, new THREE.PointsMaterial({ color: 0xffe3d6, size: 0.07, transparent: true, opacity: 0.8, depthWrite: false }));
+  escena.add(polvo);
+
+  // Paradas: un capítulo cada cierta distancia; la última es la luz del final
+  const paradas = caps.map((_, i) => 0.03 + i * (0.9 / (N - 1)));
+
+  // Proyectos: paneles que flotan junto a la parada de "Proyectos"
+  const proyectos = [
+    ['Cliente', 'La Casa de Jenni', 'Cocina casera con pedidos por WhatsApp', 'https://lacasadejenni.com/'],
+    ['Cliente', 'Avancés Campus', 'Web 3D para un taller de avancés', 'https://avancescampus.andresrendon.com/'],
+    ['Producto propio', 'Lumbrera', 'Aprender Génesis jugando', 'https://genesis.andresrendon.com/'],
+    ['Producto propio', 'Web Rescue OS', 'Tu web, sin puntos ciegos', 'https://webrescure.andresrendon.com/'],
+    ['Propuesta', 'Stylebuddhas', 'Barbería de barrio en Gràcia', 'https://stylebuddhas.andresrendon.com/'],
+    ['Propuesta', 'Hornos JAVA', 'El horno se levanta ladrillo a ladrillo', 'https://hornosjava.andresrendon.com/']
+  ];
+  const iP = caps.findIndex(c => c.id === 'proyectos');
+  const paneles = [];
+  const movil = () => innerWidth < 760;
+  proyectos.forEach(([tipo, nom, txt, url], k) => {
+    const cv = document.createElement('canvas'); cv.width = 768; cv.height = 432;
+    const x = cv.getContext('2d');
+    const gr = x.createLinearGradient(0, 0, 768, 432); gr.addColorStop(0, '#221a20'); gr.addColorStop(1, '#100d12');
+    x.fillStyle = gr; x.beginPath(); x.roundRect(4, 4, 760, 424, 34); x.fill();
+    x.lineWidth = 4; x.strokeStyle = k % 2 ? '#3fd6c6' : '#ff6a4a'; x.stroke();
+    x.fillStyle = k % 2 ? '#3fd6c6' : '#ff6a4a'; x.font = '600 30px Inter, sans-serif'; x.fillText(tipo.toUpperCase(), 48, 86);
+    x.fillStyle = '#f4efe9'; x.font = '700 70px "Space Grotesk", sans-serif'; x.fillText(nom, 48, 200);
+    x.fillStyle = '#b9b1aa'; x.font = '400 34px Inter, sans-serif'; x.fillText(txt, 48, 270);
+    x.fillStyle = '#f4efe9'; x.font = '500 28px Inter, sans-serif'; x.fillText(url.replace(/^https:\/\/|\/$/g, '') + '  ↗', 48, 372);
+    const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(4.2, 2.36), new THREE.MeshBasicMaterial({ map: tex, transparent: true, toneMapped: false, fog: true }));
+    m.userData = { url, k };
+    escena.add(m); paneles.push(m);
+  });
+  function colocarPaneles(){
+    // En el tramo justo después de la parada de Proyectos, a la derecha (en móvil, arriba)
+    const base = paradas[iP], tramo = (paradas[iP + 1] - base) * 0.85;
+    paneles.forEach((m, k) => {
+      const t = base + 0.035 + tramo * (k / paneles.length);
+      m.visible = !movil();
+      const p = curva.getPointAt(t), tg = curva.getTangentAt(t);
+      const lado = new THREE.Vector3().crossVectors(tg, new THREE.Vector3(0, 1, 0)).normalize();
+      const off = movil() ? new THREE.Vector3(0, 2.6, 0).addScaledVector(lado, (k % 2 ? 1 : -1) * 1.1) : lado.clone().multiplyScalar(3.0).add(new THREE.Vector3(0, (k % 2 ? 0.9 : -0.9), 0));
+      m.position.copy(p).add(off);
+      m.lookAt(p.clone().sub(tg.clone().multiplyScalar(8)));
+    });
+  }
+  colocarPaneles();
+
+  // Luz al final del túnel (suave, sin lavar la pantalla)
+  const cvL = document.createElement('canvas'); cvL.width = cvL.height = 256;
+  const xL = cvL.getContext('2d'), gL = xL.createRadialGradient(128,128,0,128,128,128);
+  gL.addColorStop(0,'rgba(255,240,230,1)'); gL.addColorStop(.25,'rgba(255,200,170,.85)'); gL.addColorStop(.6,'rgba(255,106,74,.25)'); gL.addColorStop(1,'rgba(255,106,74,0)');
+  xL.fillStyle = gL; xL.fillRect(0,0,256,256);
+  const luz = new THREE.Mesh(new THREE.PlaneGeometry(R * 3.2, R * 3.2), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(cvL), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false, fog: false }));
+  const fin = curva.getPointAt(0.995);
+  luz.position.copy(fin); luz.lookAt(curva.getPointAt(0.99)); escena.add(luz);
+
+  /* ---------- Postproceso ---------- */
+  const comp = new EffectComposer(ren);
+  comp.addPass(new RenderPass(escena, cam));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.7, 0.5, 0.32);
+  comp.addPass(bloom); comp.addPass(new OutputPass());
+  let conBloom = true;
+
+  /* ---------- Scroll → posición en el túnel, con frenadas en cada capítulo ---------- */
+  const nav = document.getElementById('nav');
+  nav.innerHTML = caps.map((c, i) => `<button data-ir="${i}" aria-label="Ir a ${c.dataset.nombre}"><span>${c.dataset.nombre}</span><i></i></button>`).join('');
+  const irA = i => scrollTo({ top: i * PANT / 100 * innerHeight, behavior: 'smooth' });
+  document.addEventListener('click', ev => { const b = ev.target.closest('[data-ir]'); if (b) { ev.preventDefault(); irA(+b.dataset.ir); } });
+
+  const suave = u => { // se queda quieto al principio y al final de cada tramo
+    const a = 0.28, b = 0.72;
+    if (u <= a) return 0; if (u >= b) return 1;
+    const v = (u - a) / (b - a); return v * v * (3 - 2 * v);
+  };
+  let prog = 0, progVis = 0, velVis = 0;
+  const leerScroll = () => { prog = Math.min(Math.max(scrollY / (innerHeight * PANT / 100), 0), N - 1); };
+  addEventListener('scroll', leerScroll, { passive: true }); leerScroll();
+
+  // Clic en un panel 3D → abre el proyecto
+  const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+  lienzo.style.pointerEvents = 'auto';
+  addEventListener('click', ev => {
+    if (ev.target.closest('a,button')) return;
+    ptr.set(ev.clientX / innerWidth * 2 - 1, -(ev.clientY / innerHeight) * 2 + 1);
+    ray.setFromCamera(ptr, cam);
+    const h = ray.intersectObjects(paneles)[0];
+    if (h) location.href = h.object.userData.url;
+  });
+  let mx = 0, my = 0;
+  addEventListener('pointermove', ev => { mx = ev.clientX / innerWidth - .5; my = ev.clientY / innerHeight - .5; });
+
+  addEventListener('resize', () => {
+    cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix();
+    ren.setSize(innerWidth, innerHeight); comp.setSize(innerWidth, innerHeight); colocarPaneles();
+  });
+
+  /* ---------- Bucle ---------- */
+  const reloj = new THREE.Clock();
+  let fpsT = 0, fpsN = 0, lentos = 0;
+  const ayuda = document.getElementById('ayuda');
+  const botones = [...nav.children];
+  function cuadro(){
+    const dt = Math.min(reloj.getDelta(), 0.05), t = reloj.elapsedTime;
+    const antes = progVis;
+    progVis += (prog - progVis) * Math.min(1, dt * 4.5);
+    const vel = Math.abs(progVis - antes) / Math.max(dt, 1e-3);
+    velVis += (Math.min(vel, 2) - velVis) * 0.1;
+
+    const k = Math.min(Math.floor(progVis), N - 2), u = progVis - k;
+    const tt = paradas[k] + (paradas[k + 1] - paradas[k]) * suave(u);
+    const p = curva.getPointAt(tt), mira = curva.getPointAt(Math.min(tt + 0.012, 1));
+    cam.position.copy(p).add(new THREE.Vector3(mx * 0.9, -my * 0.6, 0));
+    cam.lookAt(mira);
+    cam.fov = 70 + velVis * 14; cam.updateProjectionMatrix();
+
+    matTubo.uniforms.uT.value = t; matTubo.uniforms.uVel.value = velVis;
+    anillos.forEach(a => { const d = a.position.distanceTo(cam.position); a.material.opacity = Math.max(0.1, Math.min(1, 1.6 - d / 40)); });
+    polvo.rotation.z = Math.sin(t * 0.05) * 0.02;
+    paneles.forEach((m, i) => { m.position.y += Math.sin(t * 1.2 + i) * 0.0015; });
+    const finCerca = Math.max(0, (tt - paradas[N - 2]) / (1 - paradas[N - 2]));
+    luz.material.opacity = Math.min(0.9, finCerca * 1.1);
+    bloom.strength = 0.65 + velVis * 0.45 - finCerca * 0.3;
+
+    // Capítulos: visible el más cercano, con desvanecido
+    caps.forEach((c, i) => {
+      const d = progVis - i, o = Math.max(0, 1 - Math.abs(d) * 2.6);
+      c.style.opacity = o.toFixed(3); c.style.setProperty('--d', (-d).toFixed(3));
+      c.classList.toggle('vista', o > 0.05);
+    });
+    const act = Math.round(progVis);
+    botones.forEach((b, i) => b.classList.toggle('on', i === act));
+    ayuda.style.opacity = progVis < 0.15 ? 1 : 0;
+
+    if (conBloom) comp.render(); else ren.render(escena, cam);
+
+    // Calidad adaptativa: si va lento, menos resolución y luego sin brillo
+    fpsT += dt; fpsN++;
+    if (fpsT > 1.5) {
+      const fps = fpsN / fpsT; fpsT = 0; fpsN = 0;
+      if (fps < 38 && ++lentos >= 2) {
+        if (pr > 1) { pr = Math.max(1, pr - 0.5); ren.setPixelRatio(pr); comp.setPixelRatio(pr); }
+        else if (conBloom) conBloom = false;
+        lentos = 0;
+      }
+    }
+    requestAnimationFrame(cuadro);
+  }
+  requestAnimationFrame(cuadro);
+}
+</script>
+</body>
+</html>

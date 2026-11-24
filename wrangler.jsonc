@@ -1,0 +1,6 @@
+{
+  // Web túnel 3D de Andrés Rendón en Cloudflare Workers (static assets)
+  "name": "tunel-andresrendon",
+  "compatibility_date": "2026-11-01",
+  "assets": { "directory": "./public" }
+}
