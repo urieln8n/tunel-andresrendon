@@ -57,6 +57,8 @@ blockquote small{display:block;font-style:normal;color:var(--soft);font-size:12p
 .local .cap{position:fixed;inset:0;opacity:0;visibility:hidden;pointer-events:none;z-index:3}
 .local .cap.vista{visibility:visible}
 .local .cap.vista>div{pointer-events:auto}
+.foto{display:block;width:100%;max-width:520px;aspect-ratio:3/2;object-fit:cover;border:2px solid var(--oro);margin:18px 0 4px}
+.local .foto{display:none}
 .local .cap>div{transform:translateY(calc(var(--d,0)*36px))}
 .nav{position:fixed;right:max(2vw,10px);top:50%;transform:translateY(-50%);z-index:5;display:none;flex-direction:column;gap:10px}
 .local .nav{display:flex}
@@ -94,6 +96,7 @@ blockquote small{display:block;font-style:normal;color:var(--soft);font-size:12p
   <section class="cap" data-nombre="Inicio"><div>
     <span class="eti">BARBERÍA Y PELUQUERÍA UNISEX · GRÀCIA</span>
     <h1>Sal de aquí nuevo.</h1>
+    <img class="foto" src="fotos/fachada.webp" alt="Fachada de Stylebuddhas en Travessera de Gràcia con el poste de barbero" loading="lazy" width="1080" height="720">
     <p>Corte, barba y color para hombre, mujer y niño. Reserva tu hora en un minuto.</p>
     <div class="acc"><a class="btn" href="https://stylebuddhas.booksy.com/a/">RESERVAR EN BOOKSY</a><a class="btn btn-2" href="https://wa.me/34656927129?text=Hola%20Stylebuddhas%2C%20quiero%20reservar%20una%20cita">WHATSAPP</a></div>
     <p class="nota" style="margin-top:16px">4,9 de 5 · 93 reseñas verificadas en Treatwell</p>
@@ -102,6 +105,7 @@ blockquote small{display:block;font-style:normal;color:var(--soft);font-size:12p
   <section class="cap" data-nombre="El oficio"><div>
     <span class="eti">EL OFICIO</span>
     <h2>Navaja, tijera y pulso.</h2>
+    <img class="foto" src="fotos/herramientas.webp" alt="Tijeras, navajas, máquinas y ceras sobre el tocador de Stylebuddhas" loading="lazy" width="1080" height="720">
     <p>Degradados limpios, cortes a tijera y barbas perfiladas a navaja. Sin prisas, en un salón donde te sientes en casa.</p>
   </div></section>
 
@@ -121,12 +125,14 @@ blockquote small{display:block;font-style:normal;color:var(--soft);font-size:12p
   <section class="cap" data-nombre="El salón"><div>
     <span class="eti">EL SALÓN</span>
     <h2>Sillón clásico. Gràcia de verdad.</h2>
+    <img class="foto" src="fotos/sala.webp" alt="Interior del salón con sillones clásicos de barbero y espejos" loading="lazy" width="1080" height="720">
     <p>En plena Travessera de Gràcia. Sillones clásicos de barbero y el poste en la fachada.</p>
   </div></section>
 
   <section class="cap" data-nombre="Lewin"><div>
     <span class="eti">LEWINSON CAMPAZ · BARBERO</span>
     <h2>Lewin.</h2>
+    <img class="foto" src="fotos/lewin.webp" alt="Lewin, barbero de Stylebuddhas, sonriendo con los brazos cruzados" loading="lazy" width="1080" height="720">
     <p>Colombiano, al frente del salón. Él y su equipo cortan a hombre, mujer y niño en el mismo sitio.</p>
     <div class="cifras"><div><b>4,9</b><span>de 5 en Treatwell</span></div><div><b>93</b><span>reseñas verificadas</span></div></div>
     <blockquote>“Lewin es el mejor. Peluquero excepcional, divertido y súper cariñoso con los niños.”<small>RESEÑA VERIFICADA EN TREATWELL</small></blockquote>
@@ -142,6 +148,7 @@ blockquote small{display:block;font-style:normal;color:var(--soft);font-size:12p
   <section class="cap" data-nombre="Academy"><div>
     <span class="eti">STYLEBUDDHAS BARBER ACADEMY</span>
     <h2>De cero a barbero profesional.</h2>
+    <img class="foto" src="fotos/equipo.webp" alt="El equipo de Stylebuddhas" loading="lazy" width="1080" height="720">
     <p>Aprende el oficio con el equipo de StyleBuddhas: desde coger la máquina por primera vez hasta convertir tu talento en un negocio.</p>
     <ul class="modulos"><li>Fundamentos de la barbería</li><li>Cortes y degradados</li><li>Máquina y tijera avanzadas</li><li>Coloración y cambios de look</li><li>Diseño de barba y acabados</li><li>Diseños y creatividad</li><li>Experiencia premium</li><li>Marca personal y redes</li><li>Convierte tu talento en negocio</li></ul>
     <p class="nota">Próximamente: fechas, modalidades e inscripción.</p>
@@ -214,6 +221,15 @@ function iniciar(){
     x.fillStyle = '#e8c77d'; x.textAlign = 'center'; x.font = '700 112px "Bodoni Moda", Georgia, serif'; x.fillText('StyleBuddhas', w / 2, 132);
     x.font = '600 30px Archivo, sans-serif'; x.fillStyle = '#d2ab62'; x.fillText('B A R B E R Í A   ·   G R À C I A', w / 2, 184);
   });
+  const rotuloReal = lienzoTex(1024, 300, (x, w, h) => {
+    x.fillStyle = '#0d0d0d'; x.fillRect(0, 0, w, h);
+    x.strokeStyle = '#d2ab62'; x.lineWidth = 5; x.strokeRect(10, 10, w - 20, h - 20);
+    x.fillStyle = '#f2efe8'; x.textAlign = 'center';
+    x.font = '700 104px Archivo, sans-serif'; x.fillText('STYLE.BUDDHAS', w / 2 + 70, 140);
+    x.font = '600 70px Archivo, sans-serif'; x.fillText('WOMAN  MEN', w / 2 + 70, 240);
+    x.strokeStyle = '#f2efe8'; x.lineWidth = 6; x.beginPath(); x.arc(120, 150, 70, 0, Math.PI * 2); x.stroke();
+    x.font = '600 34px Archivo'; x.fillText('S.B', 120, 162);
+  });
   const pared = lienzoTex(512, 512, (x, w, h) => {
     x.fillStyle = '#2a211b'; x.fillRect(0, 0, w, h);
     for (let i = 0; i < 2600; i++) { x.fillStyle = `rgba(${200 + Math.random() * 40},${170 + Math.random() * 40},${130},${Math.random() * 0.05})`; x.fillRect(Math.random() * w, Math.random() * h, 2, 2); }
@@ -226,10 +242,10 @@ function iniciar(){
     suelo: new THREE.MeshStandardMaterial({ map: damero, roughness: 0.35, metalness: 0 }),
     pared: new THREE.MeshStandardMaterial({ map: pared, roughness: 0.9 }),
     techo: new THREE.MeshStandardMaterial({ color: 0x15100d, roughness: 1 }),
-    fachada: new THREE.MeshStandardMaterial({ color: 0x1b1512, roughness: 0.8 }),
+    fachada: new THREE.MeshStandardMaterial({ color: 0x6f665a, roughness: 0.95 }),
     cromo: new THREE.MeshStandardMaterial({ color: 0xdddddd, metalness: 1, roughness: 0.18 }),
     oro: new THREE.MeshStandardMaterial({ color: 0xd2ab62, metalness: 1, roughness: 0.28 }),
-    cuero: new THREE.MeshStandardMaterial({ color: 0x6b2a16, roughness: 0.45, metalness: 0.05 }),
+    cuero: new THREE.MeshStandardMaterial({ color: 0x141414, roughness: 0.38, metalness: 0.08 }),
     espejo: new THREE.MeshStandardMaterial({ color: 0x9aa3a8, metalness: 1, roughness: 0.04, envMapIntensity: 1.4 }),
     cristal: new THREE.MeshStandardMaterial({ color: 0x8fb3c0, transparent: true, opacity: 0.14, roughness: 0.05, metalness: 0.5 }),
     madera: new THREE.MeshStandardMaterial({ color: 0x3a2617, roughness: 0.6 }),
@@ -256,8 +272,8 @@ function iniciar(){
   // Marco dorado de la puerta
   caja(0.06, 2.4, 0.3, M.oro, -0.8, 1.2, 0.02); caja(0.06, 2.4, 0.3, M.oro, 0.8, 1.2, 0.02); caja(1.66, 0.06, 0.3, M.oro, 0, 2.4, 0.02);
   // Cartel sobre la puerta
-  const rotulo = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 0.95), new THREE.MeshStandardMaterial({ map: cartel, emissive: 0xffffff, emissiveMap: cartel, emissiveIntensity: 0.55, roughness: 0.6 }));
-  rotulo.position.set(0, 2.92, 0.14); esc.add(rotulo);
+  const rotulo = new THREE.Mesh(new THREE.PlaneGeometry(2.9, 0.85), new THREE.MeshStandardMaterial({ map: rotuloReal, emissive: 0xffffff, emissiveMap: rotuloReal, emissiveIntensity: 0.6, roughness: 0.6 }));
+  rotulo.position.set(0, 2.88, 0.14); esc.add(rotulo);
   // Calle y acera
   const calle = new THREE.Mesh(new THREE.PlaneGeometry(40, 30), M.calle); calle.rotation.x = -Math.PI / 2; calle.position.set(0, -0.12, 15); calle.receiveShadow = true; esc.add(calle);
   caja(40, 0.12, 3.2, M.acera, 0, -0.06, 1.7, false);
@@ -347,6 +363,29 @@ function iniciar(){
     [V(0.6, 1.7, -5.6), V(-1.3, 2.1, -12)],   // logo del fondo: Academy
     [V(-1.6, 2.1, 9.5),  V(0.2, 1.9, 0)]        // de vuelta en la calle
   ];
+  // Fotos reales enmarcadas que flotan junto a su parada
+  const cargador = new THREE.TextureLoader();
+  const fotosStop = { 1: 'herramientas', 3: 'sala', 4: 'lewin', 6: 'equipo', 7: 'fachada' };
+  const cuadros = Object.entries(fotosStop).map(([i, f]) => {
+    const tex = cargador.load('fotos/' + f + '.webp'); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+    const g = new THREE.Group();
+    const marco = new THREE.Mesh(new THREE.PlaneGeometry(1.62, 1.1), new THREE.MeshBasicMaterial({ color: 0xd2ab62, transparent: true, toneMapped: false }));
+    const foto = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.0), new THREE.MeshBasicMaterial({ map: tex, transparent: true, toneMapped: false }));
+    foto.position.z = 0.004; [marco, foto].forEach((m, j) => { m.material.depthTest = false; m.material.depthWrite = false; m.renderOrder = 20 + j; }); g.add(marco, foto); g.userData.i = +i; esc.add(g); return g;
+  });
+  function colocarCuadros(){
+    const movil = innerWidth < 760;
+    cuadros.forEach(g => {
+      const [p, t] = K[g.userData.i];
+      const fw = t.clone().sub(p).normalize(), dcha = new THREE.Vector3().crossVectors(fw, V(0, 1, 0)).normalize(), arriba = new THREE.Vector3().crossVectors(dcha, fw);
+      const d = movil ? 2.6 : 2.9;
+      g.position.copy(p).addScaledVector(fw, d).addScaledVector(dcha, movil ? 0 : 0.36).addScaledVector(arriba, movil ? 0.62 : 0.08);
+      g.scale.setScalar(movil ? 0.82 : 1);
+      g.lookAt(p.clone().addScaledVector(dcha, movil ? 0 : 0.35));
+    });
+  }
+  colocarCuadros();
+  addEventListener('resize', colocarCuadros);
   const suave = u => { const a = 0.26, b = 0.74; if (u <= a) return 0; if (u >= b) return 1; const v = (u - a) / (b - a); return v * v * (3 - 2 * v); };
 
   const nav = document.getElementById('nav');
@@ -375,6 +414,7 @@ function iniciar(){
     cam.setViewOffset(innerWidth, innerHeight, movil ? 0 : -innerWidth * 0.16, movil ? innerHeight * 0.16 : 0, innerWidth, innerHeight);
 
     rayas.offset.y = (t * 0.25) % 1;
+    cuadros.forEach(g => { const o = Math.max(0, 1 - Math.abs(progVis - g.userData.i) * 2.2); g.visible = o > 0.01; g.children.forEach(m => m.material.opacity = o); g.position.y += Math.sin(t * 1.1 + g.userData.i) * 0.0008; });
     sillones[1].rotation.y = -Math.PI / 2 + Math.sin(t * 0.5) * 0.12;
     caps.forEach((c, i) => { const d = progVis - i, o = Math.max(0, 1 - Math.abs(d) * 2.6); c.style.opacity = o.toFixed(3); c.style.setProperty('--d', (-d).toFixed(3)); c.classList.toggle('vista', o > 0.05); });
     const act = Math.round(progVis); botones.forEach((b, i) => b.classList.toggle('on', i === act));
