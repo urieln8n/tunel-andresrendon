@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stylebuddhas · Barbería en Gràcia · Propuesta 3D</title>
+<meta name="description" content="Barbería y peluquería unisex en Travessera de Gràcia 128, Barcelona. Corte de hombre 25 €, corte y barba 35 €. Reserva en Booksy o por WhatsApp.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,700&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/*
+VOICE: barbería de barrio con oficio: cálida, segura, cercana.
+IDEA: la maqueta del salón: llegas por la calle, ves el poste, entras y recorres sillones, espejos y estantería.
+PICTURE: el local en 3D en tiempo real, con suelo de damero, sillones clásicos y luz cálida.
+COLOUR and TYPE: negro cálido, crema y oro de la marca; Bodoni Moda + Archivo.
+LAYOUT: texto a la izquierda (abajo en móvil), escena a la derecha, navegación lateral.
+*/
+:root{color-scheme:dark;--bg:#0b0907;--ink:#efe6d6;--soft:#a39882;--oro:#d2ab62;--oro2:#f0d79a}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font:17px/1.55 Archivo,system-ui,sans-serif;overflow-x:clip}
+h1,h2{font-family:"Bodoni Moda",Georgia,serif;font-weight:700;line-height:1.02;margin:0 0 .35em;text-wrap:balance}
+h1{font-size:clamp(46px,7vw,88px)}h2{font-size:clamp(34px,4.6vw,58px)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--oro);outline-offset:3px}
+#escena{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+.velo{position:fixed;inset:0;pointer-events:none;z-index:1;display:none;
+  background:linear-gradient(90deg,#0b0907f2 0%,#0b0907cc 30%,#0b090750 50%,transparent 64%)}
+.local .velo{display:block}
+.top{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px max(4vw,16px)}
+.marca{text-decoration:none;font:700 22px "Bodoni Moda",serif;letter-spacing:.02em}
+.marca small{display:block;font:600 11px Archivo,sans-serif;letter-spacing:.18em;color:var(--oro)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:4px;background:var(--oro);color:#140f08;font-weight:600;letter-spacing:.04em;text-decoration:none}
+.btn:hover{background:var(--oro2)}
+.btn-2{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px #d2ab6299}
+.top .btn{min-height:42px;padding:0 18px;font-size:14px}
+.cap{min-height:100vh;display:flex;align-items:center;padding:110px max(5vw,18px) 60px}
+.cap>div{max-width:540px}
+.eti{display:block;margin-bottom:14px;color:var(--oro);font-weight:600;font-size:13px;letter-spacing:.18em}
+.cap p{color:var(--soft);font-size:18px;max-width:50ch}
+.acc{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.nota{font-size:14px;color:var(--soft)}
+.lista{list-style:none;padding:0;margin:14px 0 0;border-top:1px solid #d2ab6233}
+.lista li{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid #d2ab6233}
+.lista b{font-family:"Bodoni Moda",serif;font-size:20px;white-space:nowrap;color:var(--oro2)}
+.lista small{display:block;color:var(--soft);font-size:13px}
+.cifras{display:flex;gap:28px;margin:10px 0 14px}
+.cifras b{display:block;font:700 46px "Bodoni Moda",serif;color:var(--oro2);line-height:1}
+.cifras span{font-size:13px;color:var(--soft)}
+blockquote{margin:12px 0;padding-left:14px;border-left:2px solid var(--oro);font-style:italic;color:var(--ink)}
+blockquote small{display:block;font-style:normal;color:var(--soft);font-size:12px;letter-spacing:.08em;margin-top:4px}
+.modulos{columns:2;column-gap:20px;padding:0;margin:12px 0 0;list-style:none;font-size:14px;color:var(--soft)}
+.modulos li{break-inside:avoid;padding:3px 0}
+.modulos li::before{content:"✦ ";color:var(--oro)}
+.local .capitulos{height:var(--alto,800vh)}
+.local .cap{position:fixed;inset:0;opacity:0;visibility:hidden;pointer-events:none;z-index:3}
+.local .cap.vista{visibility:visible}
+.local .cap.vista>div{pointer-events:auto}
+.local .cap>div{transform:translateY(calc(var(--d,0)*36px))}
+.nav{position:fixed;right:max(2vw,10px);top:50%;transform:translateY(-50%);z-index:5;display:none;flex-direction:column;gap:10px}
+.local .nav{display:flex}
+.nav button{display:flex;align-items:center;justify-content:flex-end;gap:10px;background:none;border:0;color:var(--soft);cursor:pointer;min-height:28px;padding:0;font:500 13px Archivo,sans-serif}
+.nav button i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--oro);transition:transform .2s,background .2s}
+.nav button span{opacity:0;transition:opacity .2s}
+.nav button:hover span,.nav button.on span{opacity:1}
+.nav button.on i{background:var(--oro);transform:scale(1.3)}
+.ayuda{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:4;color:var(--soft);font-size:13px;letter-spacing:.14em;transition:opacity .4s;display:none}
+.local .ayuda{display:block}
+.propuesta{position:fixed;left:12px;bottom:10px;z-index:6;font-size:11px;color:#efe6d680}
+.estatico body,.estatico{background:radial-gradient(100% 60% at 80% 0%,#2a1e10 0%,var(--bg) 60%)}
+.estatico #escena{display:none}
+.estatico .cap{min-height:auto;padding-block:clamp(48px,9vh,96px)}
+.estatico .cap:first-child{min-height:90vh}
+@media (max-width:760px){
+  .local .velo{background:linear-gradient(0deg,#0b0907f7 0%,#0b0907e6 52%,#0b090799 70%,transparent 86%)}
+  .local .cap{align-items:flex-end;padding:0 18px 34px}
+  .nav,.top .btn,.ayuda{display:none!important}
+  .cap p{font-size:16px}.modulos{columns:1}
+  .cifras b{font-size:38px}
+}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+</head>
+<body>
+<canvas id="escena" aria-hidden="true"></canvas>
+<div class="velo"></div>
+<header class="top">
+  <a class="marca" href="#">StyleBuddhas<small>BARBERÍA · GRÀCIA</small></a>
+  <a class="btn" href="https://stylebuddhas.booksy.com/a/">RESERVAR</a>
+</header>
+
+<main class="capitulos">
+  <section class="cap" data-nombre="Inicio"><div>
+    <span class="eti">BARBERÍA Y PELUQUERÍA UNISEX · GRÀCIA</span>
+    <h1>Sal de aquí nuevo.</h1>
+    <p>Corte, barba y color para hombre, mujer y niño. Reserva tu hora en un minuto.</p>
+    <div class="acc"><a class="btn" href="https://stylebuddhas.booksy.com/a/">RESERVAR EN BOOKSY</a><a class="btn btn-2" href="https://wa.me/34656927129?text=Hola%20Stylebuddhas%2C%20quiero%20reservar%20una%20cita">WHATSAPP</a></div>
+    <p class="nota" style="margin-top:16px">4,9 de 5 · 93 reseñas verificadas en Treatwell</p>
+  </div></section>
+
+  <section class="cap" data-nombre="El oficio"><div>
+    <span class="eti">EL OFICIO</span>
+    <h2>Navaja, tijera y pulso.</h2>
+    <p>Degradados limpios, cortes a tijera y barbas perfiladas a navaja. Sin prisas, en un salón donde te sientes en casa.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="Precios"><div>
+    <span class="eti">SERVICIOS Y PRECIOS</span>
+    <h2>Precio claro. Corte perfecto.</h2>
+    <ul class="lista">
+      <li><span>Corte de hombre<small>30 min</small></span><b>25 €</b></li>
+      <li><span>Corte a tijera<small>30 min · desde 25 €, según el largo</small></span><b>25 €</b></li>
+      <li><span>Corte y barba<small>1 h</small></span><b>35 €</b></li>
+      <li><span>Arreglo de barba<small>30 min</small></span><b>15 €</b></li>
+      <li><span>Alisado<small>2 h 30</small></span><b>200 €</b></li>
+    </ul>
+    <p class="nota">Precios publicados en Treatwell. Ritual de barba, mechas y Naturacon: precio al reservar.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="El salón"><div>
+    <span class="eti">EL SALÓN</span>
+    <h2>Sillón clásico. Gràcia de verdad.</h2>
+    <p>En plena Travessera de Gràcia. Sillones clásicos de barbero y el poste en la fachada.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="Lewin"><div>
+    <span class="eti">LEWINSON CAMPAZ · BARBERO</span>
+    <h2>Lewin.</h2>
+    <p>Colombiano, al frente del salón. Él y su equipo cortan a hombre, mujer y niño en el mismo sitio.</p>
+    <div class="cifras"><div><b>4,9</b><span>de 5 en Treatwell</span></div><div><b>93</b><span>reseñas verificadas</span></div></div>
+    <blockquote>“Lewin es el mejor. Peluquero excepcional, divertido y súper cariñoso con los niños.”<small>RESEÑA VERIFICADA EN TREATWELL</small></blockquote>
+  </div></section>
+
+  <section class="cap" data-nombre="Naturacon"><div>
+    <span class="eti">FÓRMULA PROPIA</span>
+    <h2>Naturacon</h2>
+    <p>Nuestra fórmula propia de nutrición. Recupera el pelo de forma natural y progresiva. Va incluida cuando cortas o tratas pelo medio o largo.</p>
+    <div class="acc"><a class="btn btn-2" href="https://wa.me/34656927129?text=Hola%20Stylebuddhas%2C%20me%20gustar%C3%ADa%20saber%20m%C3%A1s%20sobre%20Naturacon">PREGUNTAR POR NATURACON</a></div>
+  </div></section>
+
+  <section class="cap" data-nombre="Academy"><div>
+    <span class="eti">STYLEBUDDHAS BARBER ACADEMY</span>
+    <h2>De cero a barbero profesional.</h2>
+    <p>Aprende el oficio con el equipo de StyleBuddhas: desde coger la máquina por primera vez hasta convertir tu talento en un negocio.</p>
+    <ul class="modulos"><li>Fundamentos de la barbería</li><li>Cortes y degradados</li><li>Máquina y tijera avanzadas</li><li>Coloración y cambios de look</li><li>Diseño de barba y acabados</li><li>Diseños y creatividad</li><li>Experiencia premium</li><li>Marca personal y redes</li><li>Convierte tu talento en negocio</li></ul>
+    <p class="nota">Próximamente: fechas, modalidades e inscripción.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="Ven a Gràcia"><div>
+    <span class="eti">VEN A GRÀCIA</span>
+    <h2>Travessera de Gràcia, 128.</h2>
+    <p>08012 Barcelona · WhatsApp +34 656 92 71 29 · Instagram <a href="https://www.instagram.com/stylebuddhas/">@stylebuddhas</a></p>
+    <div class="acc"><a class="btn" href="https://stylebuddhas.booksy.com/a/">VER HORAS LIBRES</a><a class="btn btn-2" href="https://www.google.com/maps/search/?api=1&query=Stylebuddhas%20Travessera%20de%20Gr%C3%A0cia%20128%20Barcelona">CÓMO LLEGAR</a></div>
+  </div></section>
+</main>
+
+<nav class="nav" id="nav" aria-label="Capítulos"></nav>
+<div class="ayuda" id="ayuda">DESLIZA PARA ENTRAR</div>
+<div class="propuesta">Propuesta de diseño · Andrés AI Studio</div>
+
+<script type="module">
+const raiz = document.documentElement;
+const caps = [...document.querySelectorAll('.cap')], N = caps.length;
+const mov = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const webgl = (() => { try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; } })();
+let THREE, RoomEnvironment;
+if (mov || !webgl) raiz.classList.add('estatico');
+else {
+  try {
+    THREE = await import('three');
+    ({ RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js'));
+    await document.fonts.ready;
+    iniciar();
+  } catch (e) { console.warn('Sin 3D:', e); raiz.classList.add('estatico'); }
+}
+
+function iniciar(){
+  raiz.classList.add('local');
+  const PANT = 115;
+  document.querySelector('.capitulos').style.setProperty('--alto', (PANT * (N - 1) + 100) + 'vh');
+  const V = (x, y, z) => new THREE.Vector3(x, y, z);
+
+  const lienzo = document.getElementById('escena');
+  const ren = new THREE.WebGLRenderer({ canvas: lienzo, antialias: true, powerPreference: 'high-performance' });
+  let pr = Math.min(devicePixelRatio, 1.6); ren.setPixelRatio(pr); ren.setSize(innerWidth, innerHeight);
+  ren.toneMapping = THREE.ACESFilmicToneMapping; ren.toneMappingExposure = 1.05;
+  ren.shadowMap.enabled = true; ren.shadowMap.type = THREE.PCFSoftShadowMap;
+  const esc = new THREE.Scene();
+  esc.background = new THREE.Color(0x120d0a);
+  esc.fog = new THREE.Fog(0x120d0a, 14, 34);
+  const pm = new THREE.PMREMGenerator(ren);
+  esc.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+  const cam = new THREE.PerspectiveCamera(52, innerWidth / innerHeight, 0.05, 80);
+
+  /* ---------- Texturas dibujadas ---------- */
+  const lienzoTex = (w, h, dibuja, rep) => {
+    const c = document.createElement('canvas'); c.width = w; c.height = h; dibuja(c.getContext('2d'), w, h);
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
+    if (rep) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rep[0], rep[1]); }
+    return t;
+  };
+  const damero = lienzoTex(256, 256, (x) => {
+    for (let i = 0; i < 2; i++) for (let j = 0; j < 2; j++) { x.fillStyle = (i + j) % 2 ? '#e9e0cf' : '#141110'; x.fillRect(i * 128, j * 128, 128, 128); }
+  }, [10, 12]);
+  const rayas = lienzoTex(64, 256, (x, w, h) => {
+    x.fillStyle = '#f4efe6'; x.fillRect(0, 0, w, h);
+    const col = ['#b3261e', '#f4efe6', '#1d3a6b', '#f4efe6'];
+    for (let k = -2; k < 10; k++) { x.save(); x.translate(0, k * 64); x.transform(1, 0.9, 0, 1, 0, 0); x.fillStyle = col[((k % 4) + 4) % 4]; x.fillRect(-64, 0, 200, 32); x.restore(); }
+  }, [1, 2]);
+  const cartel = lienzoTex(1024, 220, (x, w, h) => {
+    x.fillStyle = '#0b0907'; x.fillRect(0, 0, w, h);
+    x.strokeStyle = '#d2ab62'; x.lineWidth = 6; x.strokeRect(14, 14, w - 28, h - 28);
+    x.fillStyle = '#e8c77d'; x.textAlign = 'center'; x.font = '700 112px "Bodoni Moda", Georgia, serif'; x.fillText('StyleBuddhas', w / 2, 132);
+    x.font = '600 30px Archivo, sans-serif'; x.fillStyle = '#d2ab62'; x.fillText('B A R B E R Í A   ·   G R À C I A', w / 2, 184);
+  });
+  const pared = lienzoTex(512, 512, (x, w, h) => {
+    x.fillStyle = '#2a211b'; x.fillRect(0, 0, w, h);
+    for (let i = 0; i < 2600; i++) { x.fillStyle = `rgba(${200 + Math.random() * 40},${170 + Math.random() * 40},${130},${Math.random() * 0.05})`; x.fillRect(Math.random() * w, Math.random() * h, 2, 2); }
+    x.fillStyle = '#1a1411'; x.fillRect(0, h * 0.62, w, h * 0.38);           // zócalo oscuro
+    x.fillStyle = '#d2ab62'; x.fillRect(0, h * 0.62, w, 3);                    // filete de oro
+  }, [4, 1]);
+
+  /* ---------- Materiales ---------- */
+  const M = {
+    suelo: new THREE.MeshStandardMaterial({ map: damero, roughness: 0.35, metalness: 0 }),
+    pared: new THREE.MeshStandardMaterial({ map: pared, roughness: 0.9 }),
+    techo: new THREE.MeshStandardMaterial({ color: 0x15100d, roughness: 1 }),
+    fachada: new THREE.MeshStandardMaterial({ color: 0x1b1512, roughness: 0.8 }),
+    cromo: new THREE.MeshStandardMaterial({ color: 0xdddddd, metalness: 1, roughness: 0.18 }),
+    oro: new THREE.MeshStandardMaterial({ color: 0xd2ab62, metalness: 1, roughness: 0.28 }),
+    cuero: new THREE.MeshStandardMaterial({ color: 0x6b2a16, roughness: 0.45, metalness: 0.05 }),
+    espejo: new THREE.MeshStandardMaterial({ color: 0x9aa3a8, metalness: 1, roughness: 0.04, envMapIntensity: 1.4 }),
+    cristal: new THREE.MeshStandardMaterial({ color: 0x8fb3c0, transparent: true, opacity: 0.14, roughness: 0.05, metalness: 0.5 }),
+    madera: new THREE.MeshStandardMaterial({ color: 0x3a2617, roughness: 0.6 }),
+    calle: new THREE.MeshStandardMaterial({ color: 0x1a1816, roughness: 0.95 }),
+    acera: new THREE.MeshStandardMaterial({ color: 0x3a3632, roughness: 0.9 })
+  };
+  const caja = (w, h, d, m, x, y, z, sombra = true) => { const o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); o.position.set(x, y, z); o.castShadow = sombra; o.receiveShadow = true; esc.add(o); return o; };
+
+  /* ---------- El local: 10 m de ancho, 12 de fondo, 3,4 de alto ---------- */
+  const AN = 10, FO = 12, AL = 3.4;
+  const suelo = new THREE.Mesh(new THREE.PlaneGeometry(AN, FO), M.suelo); suelo.rotation.x = -Math.PI / 2; suelo.position.set(0, 0, -FO / 2); suelo.receiveShadow = true; esc.add(suelo);
+  caja(AN, 0.1, FO, M.techo, 0, AL, -FO / 2, false);
+  caja(0.1, AL, FO, M.pared, -AN / 2, AL / 2, -FO / 2, false);
+  caja(0.1, AL, FO, M.pared, AN / 2, AL / 2, -FO / 2, false);
+  caja(AN, AL, 0.1, M.pared, 0, AL / 2, -FO, false);
+  // Fachada con puerta (centro) y escaparate (derecha)
+  caja(4.2, AL, 0.25, M.fachada, -2.9, AL / 2, 0);                 // izquierda
+  caja(1.6, AL - 2.4, 0.25, M.fachada, 0, 2.4 + (AL - 2.4) / 2, 0); // dintel puerta
+  caja(0.6, AL, 0.25, M.fachada, 1.1, AL / 2, 0);                   // entre puerta y escaparate
+  caja(3.6, 0.6, 0.25, M.fachada, 3.2, 0.3, 0);                     // bajo escaparate
+  caja(3.6, AL - 2.5, 0.25, M.fachada, 3.2, 2.5 + (AL - 2.5) / 2, 0); // sobre escaparate
+  caja(3.6, 1.9, 0.03, M.cristal, 3.2, 1.55, 0, false);
+  caja(3.66, 0.05, 0.3, M.oro, 3.2, 2.5, 0.02);  caja(3.66, 0.05, 0.3, M.oro, 3.2, 0.6, 0.02);
+  // Marco dorado de la puerta
+  caja(0.06, 2.4, 0.3, M.oro, -0.8, 1.2, 0.02); caja(0.06, 2.4, 0.3, M.oro, 0.8, 1.2, 0.02); caja(1.66, 0.06, 0.3, M.oro, 0, 2.4, 0.02);
+  // Cartel sobre la puerta
+  const rotulo = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 0.95), new THREE.MeshStandardMaterial({ map: cartel, emissive: 0xffffff, emissiveMap: cartel, emissiveIntensity: 0.55, roughness: 0.6 }));
+  rotulo.position.set(0, 2.92, 0.14); esc.add(rotulo);
+  // Calle y acera
+  const calle = new THREE.Mesh(new THREE.PlaneGeometry(40, 30), M.calle); calle.rotation.x = -Math.PI / 2; calle.position.set(0, -0.12, 15); calle.receiveShadow = true; esc.add(calle);
+  caja(40, 0.12, 3.2, M.acera, 0, -0.06, 1.7, false);
+  // Fachadas vecinas para dar barrio
+  caja(8, 5.2, 0.4, new THREE.MeshStandardMaterial({ color: 0x2b2420, roughness: 0.9 }), -9.2, 2.6, -0.1);
+  caja(8, 4.6, 0.4, new THREE.MeshStandardMaterial({ color: 0x231d19, roughness: 0.9 }), 9.2, 2.3, -0.1);
+
+  // Poste de barbero en la fachada
+  const poste = new THREE.Group();
+  const cil = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 1.0, 32, 1, true), new THREE.MeshStandardMaterial({ map: rayas, emissive: 0xffffff, emissiveMap: rayas, emissiveIntensity: 0.35, roughness: 0.3 }));
+  const vid = new THREE.Mesh(new THREE.CylinderGeometry(0.125, 0.125, 1.04, 32, 1, true), new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.18, roughness: 0.05, metalness: 0.3 }));
+  const tapa1 = new THREE.Mesh(new THREE.SphereGeometry(0.14, 24, 16, 0, Math.PI * 2, 0, Math.PI / 2), M.oro); tapa1.position.y = 0.52;
+  const tapa2 = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.1, 0.1, 24), M.oro); tapa2.position.y = -0.55;
+  const brazo = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.04, 0.3), M.oro); brazo.position.set(0, 0, -0.18);
+  poste.add(cil, vid, tapa1, tapa2, brazo); poste.position.set(-1.35, 1.75, 0.32); esc.add(poste);
+  const luzPoste = new THREE.PointLight(0xffd8b0, 4, 4, 2); luzPoste.position.set(-1.35, 1.8, 0.8); esc.add(luzPoste);
+
+  // Sillón de barbero clásico, hecho con piezas
+  function sillon(z){
+    const g = new THREE.Group();
+    const add = (geo, m, x, y, zz, rx = 0) => { const o = new THREE.Mesh(geo, m); o.position.set(x, y, zz); o.rotation.x = rx; o.castShadow = o.receiveShadow = true; g.add(o); return o; };
+    add(new THREE.CylinderGeometry(0.34, 0.42, 0.08, 40), M.cromo, 0, 0.04, 0);
+    add(new THREE.CylinderGeometry(0.07, 0.09, 0.42, 24), M.cromo, 0, 0.29, 0);
+    add(new THREE.BoxGeometry(0.66, 0.16, 0.62), M.cuero, 0, 0.58, 0);
+    add(new THREE.BoxGeometry(0.62, 0.78, 0.14), M.cuero, 0, 1.03, -0.3, -0.14);
+    add(new THREE.BoxGeometry(0.32, 0.15, 0.12), M.cuero, 0, 1.53, -0.4, -0.14);
+    for (const s of [-1, 1]) {
+      add(new THREE.BoxGeometry(0.09, 0.07, 0.56), M.cuero, s * 0.37, 0.84, 0.02);
+      add(new THREE.CylinderGeometry(0.02, 0.02, 0.22, 12), M.cromo, s * 0.37, 0.71, 0.2);
+    }
+    add(new THREE.BoxGeometry(0.5, 0.04, 0.2), M.cromo, 0, 0.24, 0.47);
+    add(new THREE.CylinderGeometry(0.02, 0.02, 0.36, 12), M.cromo, 0, 0.4, 0.33, 0.6);
+    g.position.set(-3.55, 0, z); g.rotation.y = -Math.PI / 2; esc.add(g); return g;
+  }
+  const zSillones = [-3.2, -6.2, -9.2];
+  const sillones = zSillones.map(sillon);
+  // Espejos con marco dorado y tocador
+  zSillones.forEach(z => {
+    caja(0.05, 1.5, 1.05, M.oro, -AN / 2 + 0.08, 1.75, z);
+    const e = new THREE.Mesh(new THREE.PlaneGeometry(0.95, 1.4), M.espejo); e.position.set(-AN / 2 + 0.12, 1.75, z); e.rotation.y = Math.PI / 2; esc.add(e);
+    caja(0.45, 0.06, 1.3, M.madera, -AN / 2 + 0.27, 0.95, z);
+    // utensilios en el tocador
+    const tij = new THREE.Mesh(new THREE.TorusGeometry(0.04, 0.01, 8, 20), M.cromo); tij.position.set(-AN / 2 + 0.3, 1.0, z - 0.35); tij.rotation.x = Math.PI / 2; esc.add(tij);
+    for (let k = 0; k < 3; k++) { const b = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.18, 16), new THREE.MeshStandardMaterial({ color: [0x2b5d4a, 0x8a5a2b, 0x1d1d1d][k], roughness: 0.2, metalness: 0.1 })); b.position.set(-AN / 2 + 0.25, 1.07, z + 0.3 + k * 0.1); esc.add(b); }
+  });
+  // Estantería de Naturacon (pared derecha)
+  const zEst = -5.2;
+  for (let k = 0; k < 3; k++) caja(0.35, 0.05, 2.4, M.madera, AN / 2 - 0.2, 1.05 + k * 0.5, zEst);
+  caja(0.03, 1.6, 2.5, M.oro, AN / 2 - 0.04, 1.55, zEst, false);
+  const frascoMat = [new THREE.MeshStandardMaterial({ color: 0xd2ab62, metalness: 0.6, roughness: 0.25 }), new THREE.MeshStandardMaterial({ color: 0xefe6d6, roughness: 0.3 }), new THREE.MeshStandardMaterial({ color: 0x2b211a, roughness: 0.2, metalness: 0.2 })];
+  for (let k = 0; k < 3; k++) for (let i = 0; i < 9; i++) {
+    const alto = 0.16 + ((i * 7 + k * 3) % 4) * 0.03;
+    const f = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.055, alto, 20), frascoMat[(i + k) % 3]);
+    f.position.set(AN / 2 - 0.22, 1.08 + k * 0.5 + alto / 2, zEst - 1.05 + i * 0.26); f.castShadow = true; esc.add(f);
+  }
+  // Banco de espera y planta
+  caja(0.55, 0.45, 2.2, M.cuero, AN / 2 - 0.4, 0.42, -2.0); caja(0.55, 0.06, 2.3, M.oro, AN / 2 - 0.4, 0.17, -2.0);
+  const maceta = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.17, 0.42, 24), M.madera); maceta.position.set(AN / 2 - 0.5, 0.21, -0.7); esc.add(maceta);
+  for (let i = 0; i < 9; i++) { const h = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.8, 6), new THREE.MeshStandardMaterial({ color: 0x2f5b33, roughness: 0.8 })); h.position.set(AN / 2 - 0.5 + Math.cos(i) * 0.08, 0.8, -0.7 + Math.sin(i) * 0.08); h.rotation.set(Math.cos(i * 2) * 0.4, 0, Math.sin(i * 2) * 0.4); esc.add(h); }
+  // Logo en la pared del fondo
+  const logoFondo = new THREE.Mesh(new THREE.PlaneGeometry(5, 1.08), new THREE.MeshStandardMaterial({ map: cartel, emissive: 0xffffff, emissiveMap: cartel, emissiveIntensity: 0.4 }));
+  logoFondo.position.set(0, 2.25, -FO + 0.07); esc.add(logoFondo);
+
+  /* ---------- Luces cálidas ---------- */
+  esc.add(new THREE.HemisphereLight(0xffe7c8, 0x1a120c, 0.35));
+  zSillones.forEach((z, i) => {
+    const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.13, 24, 16), new THREE.MeshStandardMaterial({ color: 0xffe2b0, emissive: 0xffc77a, emissiveIntensity: 2.2 }));
+    lamp.position.set(-3.1, AL - 0.75, z); esc.add(lamp);
+    const cable = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.62, 6), M.oro); cable.position.set(-3.1, AL - 0.38, z); esc.add(cable);
+    const pl = new THREE.PointLight(0xffc98a, 7, 7, 1.8); pl.position.set(-3.1, AL - 0.95, z);
+    if (i === 1) { pl.castShadow = true; pl.shadow.mapSize.set(1024, 1024); pl.shadow.bias = -0.002; }
+    esc.add(pl);
+  });
+  const pFondo = new THREE.PointLight(0xffd29a, 5, 9, 1.8); pFondo.position.set(1.5, 2.6, -10); esc.add(pFondo);
+  const pEst = new THREE.PointLight(0xffe0b0, 3.5, 4, 2); pEst.position.set(AN / 2 - 1.2, 2.4, zEst); esc.add(pEst);
+  const farola = new THREE.PointLight(0xffb77a, 9, 16, 1.6); farola.position.set(2.5, 4.5, 6); esc.add(farola);
+  const dentro = new THREE.PointLight(0xffc98a, 3, 8, 2); dentro.position.set(0, 2.2, -1.2); esc.add(dentro);
+
+  /* ---------- Recorrido de la cámara: una parada por capítulo ---------- */
+  const K = [
+    [V(1.2, 1.65, 8.2),  V(0.2, 1.75, 0)],      // calle frente a la fachada
+    [V(0, 1.6, 1.6),     V(-0.2, 1.4, -4)],     // en la puerta
+    [V(-1.05, 1.5, -1.6), V(-4.4, 1.35, -3.3)], // primer sillón y espejo
+    [V(3.6, 2.55, -0.9), V(-1.4, 0.8, -7.5)],   // vista general del salón
+    [V(-0.9, 1.45, -4.7), V(-3.6, 1.05, -6.2)], // sillón de Lewin
+    [V(2.4, 1.55, -3.6), V(4.9, 1.5, -5.6)],    // estantería Naturacon
+    [V(0.6, 1.7, -5.6), V(-1.3, 2.1, -12)],   // logo del fondo: Academy
+    [V(-1.6, 2.1, 9.5),  V(0.2, 1.9, 0)]        // de vuelta en la calle
+  ];
+  const suave = u => { const a = 0.26, b = 0.74; if (u <= a) return 0; if (u >= b) return 1; const v = (u - a) / (b - a); return v * v * (3 - 2 * v); };
+
+  const nav = document.getElementById('nav');
+  nav.innerHTML = caps.map((c, i) => `<button data-ir="${i}" aria-label="Ir a ${c.dataset.nombre}"><span>${c.dataset.nombre}</span><i></i></button>`).join('');
+  document.addEventListener('click', ev => { const b = ev.target.closest('[data-ir]'); if (b) { ev.preventDefault(); scrollTo({ top: +b.dataset.ir * PANT / 100 * innerHeight, behavior: 'smooth' }); } });
+  let prog = 0, progVis = 0, mx = 0, my = 0;
+  const leer = () => { prog = Math.min(Math.max(scrollY / (innerHeight * PANT / 100), 0), N - 1); };
+  addEventListener('scroll', leer, { passive: true }); leer();
+  addEventListener('pointermove', ev => { mx = ev.clientX / innerWidth - .5; my = ev.clientY / innerHeight - .5; });
+  addEventListener('resize', () => { cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); ren.setSize(innerWidth, innerHeight); });
+
+  const ayuda = document.getElementById('ayuda'), botones = [...nav.children];
+  const reloj = new THREE.Clock(); const pos = V(0, 0, 0), mira = V(0, 0, 0);
+  let fpsT = 0, fpsN = 0;
+  function cuadro(){
+    const dt = Math.min(reloj.getDelta(), 0.05), t = reloj.elapsedTime;
+    progVis += (prog - progVis) * Math.min(1, dt * 4);
+    const k = Math.min(Math.floor(progVis), N - 2), u = suave(progVis - k);
+    pos.lerpVectors(K[k][0], K[k + 1][0], u); mira.lerpVectors(K[k][1], K[k + 1][1], u);
+    // En el tramo de entrada, la cámara pasa por el centro de la puerta
+    cam.position.copy(pos).add(V(mx * 0.25, -my * 0.15, 0));
+    cam.lookAt(mira);
+    const movil = innerWidth < 760;
+    cam.fov = movil ? 64 : 52; cam.updateProjectionMatrix();
+    // En escritorio, desplaza el encuadre a la derecha para dejar sitio al texto
+    cam.setViewOffset(innerWidth, innerHeight, movil ? 0 : -innerWidth * 0.16, movil ? innerHeight * 0.16 : 0, innerWidth, innerHeight);
+
+    rayas.offset.y = (t * 0.25) % 1;
+    sillones[1].rotation.y = -Math.PI / 2 + Math.sin(t * 0.5) * 0.12;
+    caps.forEach((c, i) => { const d = progVis - i, o = Math.max(0, 1 - Math.abs(d) * 2.6); c.style.opacity = o.toFixed(3); c.style.setProperty('--d', (-d).toFixed(3)); c.classList.toggle('vista', o > 0.05); });
+    const act = Math.round(progVis); botones.forEach((b, i) => b.classList.toggle('on', i === act));
+    ayuda.style.opacity = progVis < 0.15 ? 1 : 0;
+    ren.render(esc, cam);
+    fpsT += dt; fpsN++;
+    if (fpsT > 2) { const fps = fpsN / fpsT; fpsT = fpsN = 0; if (fps < 36 && pr > 1) { pr = Math.max(1, pr - 0.4); ren.setPixelRatio(pr); } else if (fps < 30 && ren.shadowMap.enabled) { ren.shadowMap.enabled = false; } }
+    requestAnimationFrame(cuadro);
+  }
+  requestAnimationFrame(cuadro);
+}
+</script>
+</body>
+</html>
