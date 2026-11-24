@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumbrera · Aprende la Biblia jugando · La creación en 7 días</title>
+<meta name="description" content="Aprende la Biblia con 900 preguntas de Génesis, Éxodo y los cuatro Evangelios en lecciones cortas. Racha, liga semanal y partidas en grupo con PIN. Gratis, sin registro y también sin conexión.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/*
+VOICE: cálida, sencilla y alegre; para todas las edades, para jugar solo o en grupo.
+IDEA: Génesis 1: con el scroll el mundo se crea día a día; cada día enseña una parte de la app.
+PICTURE: un mundo pequeño en 3D que nace de la oscuridad: luz, cielo y mar, tierra y árboles, sol y luna, peces y aves, animales y personas.
+COLOUR and TYPE: índigo de Lumbrera, crema y dorado de lámpara; Baloo 2 + Nunito.
+LAYOUT: texto a la izquierda (abajo en móvil), el mundo a la derecha, días en la navegación lateral.
+*/
+:root{color-scheme:dark;--bg:#1b1640;--ink:#f4f1ea;--soft:#c9c3e6;--oro:#ffc94a;--cielo:#7fd3ff}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;background:#07061a;color:var(--ink)}
+body{font:18px/1.55 Nunito,system-ui,sans-serif;overflow-x:clip}
+h1,h2{font-family:"Baloo 2",Nunito,sans-serif;font-weight:800;line-height:1.02;margin:0 0 .3em;text-wrap:balance}
+h1{font-size:clamp(44px,6.4vw,80px)}h2{font-size:clamp(34px,4.6vw,58px)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--oro);outline-offset:3px}
+#escena{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+.velo{position:fixed;inset:0;pointer-events:none;z-index:1;display:none;background:linear-gradient(90deg,#07061ae6 0%,#07061ab3 30%,#07061a40 52%,transparent 64%)}
+.mundo .velo{display:block}
+.top{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px max(4vw,16px)}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 24px "Baloo 2",sans-serif}
+.marca i{font-style:normal;display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--oro);color:#2a1d00;font-size:20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4em;min-height:50px;padding:0 24px;border-radius:999px;background:var(--oro);color:#2a1d00;font-weight:800;text-decoration:none;box-shadow:0 4px 0 #c6901b}
+.btn:hover{filter:brightness(1.06)}
+.btn-2{background:#ffffff1a;color:var(--ink);box-shadow:inset 0 0 0 2px #ffffff40}
+.top .btn{min-height:42px;padding:0 18px;font-size:15px;box-shadow:0 3px 0 #c6901b}
+.cap{min-height:100vh;display:flex;align-items:center;padding:110px max(5vw,18px) 60px}
+.cap>div{max-width:540px}
+.dia{display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;padding:5px 14px;border-radius:999px;background:#ffc94a22;color:var(--oro);font-weight:800;font-size:15px}
+.cita{margin:0 0 14px;font-size:20px;font-style:italic;color:var(--cielo)}
+.cita small{font-style:normal;color:var(--soft);font-size:14px}
+.cap p{color:var(--soft);max-width:48ch}
+.acc{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;padding:0;list-style:none}
+.chips li{padding:7px 14px;border-radius:999px;background:#ffffff14;border:1px solid #ffffff26;font-weight:700;font-size:15px}
+.nota{font-size:14px;color:var(--soft)}
+.mundo .capitulos{height:var(--alto,900vh)}
+.mundo .cap{position:fixed;inset:0;opacity:0;visibility:hidden;pointer-events:none;z-index:3}
+.mundo .cap.vista{visibility:visible}.mundo .cap.vista>div{pointer-events:auto}
+.mundo .cap>div{transform:translateY(calc(var(--d,0)*34px))}
+.nav{position:fixed;right:max(2vw,10px);top:50%;transform:translateY(-50%);z-index:5;display:none;flex-direction:column;gap:9px}
+.mundo .nav{display:flex}
+.nav button{display:flex;align-items:center;justify-content:flex-end;gap:10px;background:none;border:0;color:var(--soft);cursor:pointer;min-height:26px;padding:0;font:700 13px Nunito,sans-serif}
+.nav button i{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#ffffff1f;font-style:normal;font-size:11px;color:var(--ink);transition:background .2s,transform .2s}
+.nav button span{opacity:0;transition:opacity .2s}
+.nav button:hover span,.nav button.on span{opacity:1}
+.nav button.on i{background:var(--oro);color:#2a1d00;transform:scale(1.15)}
+.ayuda{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:4;color:var(--soft);font-weight:700;font-size:14px;display:none;transition:opacity .4s}
+.mundo .ayuda{display:block}
+.pie{position:fixed;left:12px;bottom:8px;z-index:6;font-size:11px;color:#f4f1ea80;max-width:70vw}
+.estatico,.estatico body{background:radial-gradient(100% 60% at 80% 0%,#3a2f86 0%,var(--bg) 60%)}
+.estatico #escena{display:none}.estatico .pie{position:static;padding:20px}
+.estatico .cap{min-height:auto;padding-block:clamp(44px,8vh,90px)}
+.estatico .cap:first-child{min-height:88vh}
+@media (max-width:760px){
+  .mundo .velo{background:linear-gradient(0deg,#07061af5 0%,#07061ae0 46%,#07061a80 64%,transparent 80%)}
+  .mundo .cap{align-items:flex-end;padding:0 18px 40px}
+  .nav,.top .btn,.ayuda{display:none!important}
+  .mundo .pie{display:none}
+  body{font-size:16.5px}.cita{font-size:18px}
+}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
+</head>
+<body>
+<canvas id="escena" aria-hidden="true"></canvas>
+<div class="velo"></div>
+<header class="top">
+  <a class="marca" href="https://genesis.andresrendon.com/"><i>✦</i>Lumbrera</a>
+  <a class="btn" href="https://genesis.andresrendon.com/jugar">Jugar gratis</a>
+</header>
+
+<main class="capitulos">
+  <section class="cap" data-nombre="Inicio" data-n="✦"><div>
+    <span class="dia">En el principio…</span>
+    <h1>Aprende la Biblia jugando</h1>
+    <p>900 preguntas de Génesis, Éxodo y los cuatro Evangelios, en lecciones cortas. Gratis, sin registro y también sin conexión.</p>
+    <div class="acc"><a class="btn" href="https://genesis.andresrendon.com/jugar">▶ Empezar a jugar</a><a class="btn btn-2" href="https://genesis.andresrendon.com/grupos">Jugar en grupo</a></div>
+    <p class="nota" style="margin-top:16px">Desliza y mira cómo se crea el mundo, día a día.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="La luz" data-n="1"><div>
+    <span class="dia">Día 1 · La luz</span>
+    <p class="cita">«Sea la luz; y fue la luz.» <small>Génesis 1:3</small></p>
+    <h2>Unos minutos al día bastan</h2>
+    <p>Lecciones de 10 preguntas. Cada respuesta te enseña la cita y una explicación breve, para que aprendas mientras juegas.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="Cielo y mar" data-n="2"><div>
+    <span class="dia">Día 2 · El cielo y las aguas</span>
+    <p class="cita">«Haya expansión en medio de las aguas.» <small>Génesis 1:6</small></p>
+    <h2>Seis libros para empezar</h2>
+    <ul class="chips"><li>Génesis</li><li>Éxodo</li><li>Mateo</li><li>Marcos</li><li>Lucas</li><li>Juan</li></ul>
+    <p style="margin-top:14px">150 preguntas de cada libro, repartidas en 15 lecciones.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="La tierra" data-n="3"><div>
+    <span class="dia">Día 3 · La tierra y las plantas</span>
+    <p class="cita">«Produzca la tierra hierba verde.» <small>Génesis 1:11</small></p>
+    <h2>Cinco formas de aprender</h2>
+    <ul class="chips"><li>Elegir respuesta</li><li>Verdadero o falso</li><li>Completar versículos</li><li>Ordenar hechos</li><li>Emparejar personajes</li></ul>
+    <p style="margin-top:14px">Las preguntas que fallas se guardan para que las repases.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="Las lumbreras" data-n="4"><div>
+    <span class="dia">Día 4 · El sol, la luna y las estrellas</span>
+    <p class="cita">«Haya lumbreras en la expansión de los cielos.» <small>Génesis 1:14</small></p>
+    <h2>De aquí viene el nombre</h2>
+    <p>Como una lumbrera que no se apaga: racha diaria, misiones, logros y una liga semanal para no perder el ritmo.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="Peces y aves" data-n="5"><div>
+    <span class="dia">Día 5 · Los peces y las aves</span>
+    <p class="cita">«Produzcan las aguas seres vivientes.» <small>Génesis 1:20</small></p>
+    <h2>Juega en grupo con un PIN</h2>
+    <p>Elige de 10 a 150 preguntas y el tiempo por pregunta. La pantalla muestra un PIN y cada persona juega desde su móvil, sin contraseña. Ideal para jóvenes, células y escuela dominical.</p>
+    <div class="acc"><a class="btn btn-2" href="https://genesis.andresrendon.com/grupos">Crear una partida en grupo</a></div>
+  </div></section>
+
+  <section class="cap" data-nombre="Animales y personas" data-n="6"><div>
+    <span class="dia">Día 6 · Los animales y las personas</span>
+    <p class="cita">«Hagamos al hombre a nuestra imagen.» <small>Génesis 1:26</small></p>
+    <h2>Aprende con tus amigos</h2>
+    <p>Invítalos y competid por la racha más larga. Aprender juntos se hace más fácil.</p>
+  </div></section>
+
+  <section class="cap" data-nombre="El descanso" data-n="7"><div>
+    <span class="dia">Día 7 · El descanso</span>
+    <p class="cita">«Y reposó el día séptimo.» <small>Génesis 2:2</small></p>
+    <h2>Tu turno: empieza hoy</h2>
+    <p>Gratis, sin registro y también sin conexión. Instálala en el móvil o el ordenador y vuelve cada día.</p>
+    <div class="acc"><a class="btn" href="https://genesis.andresrendon.com/jugar">▶ Empezar a jugar</a><a class="btn btn-2" href="https://genesis.andresrendon.com/preguntas">Ver preguntas con respuestas</a></div>
+    <p class="nota" style="margin-top:14px">Citas: Reina-Valera 1960.</p>
+  </div></section>
+</main>
+
+<nav class="nav" id="nav" aria-label="Días de la creación"></nav>
+<div class="ayuda" id="ayuda">Desliza para crear el mundo ↓</div>
+<p class="pie">Citas: Reina-Valera 1960 © Sociedades Bíblicas en América Latina, 1960. Renovado © Sociedades Bíblicas Unidas, 1988. · Hecho por <a href="https://www.andresrendon.com/">Andrés Rendón</a></p>
+
+<script type="module">
+const raiz = document.documentElement;
+const caps = [...document.querySelectorAll('.cap')], N = caps.length;
+const mov = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const webgl = (() => { try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; } })();
+let THREE;
+if (mov || !webgl) raiz.classList.add('estatico');
+else { try { THREE = await import('three'); iniciar(); } catch (e) { console.warn(e); raiz.classList.add('estatico'); } }
+
+function iniciar(){
+  raiz.classList.add('mundo');
+  const PANT = 110;
+  document.querySelector('.capitulos').style.setProperty('--alto', (PANT * (N - 1) + 100) + 'vh');
+  const V = (x, y, z) => new THREE.Vector3(x, y, z);
+  const C = h => new THREE.Color(h);
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const ease = x => { x = clamp(x); return x * x * (3 - 2 * x); };
+  const pop = x => { x = clamp(x); const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); }; // aparece con un pequeño rebote
+
+  const ren = new THREE.WebGLRenderer({ canvas: document.getElementById('escena'), antialias: true });
+  let pr = Math.min(devicePixelRatio, 1.6); ren.setPixelRatio(pr); ren.setSize(innerWidth, innerHeight);
+  ren.toneMapping = THREE.ACESFilmicToneMapping;
+  const esc = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 400);
+
+  // Cielo: una esfera con degradado que pasa de la oscuridad al día
+  const cieloMat = new THREE.ShaderMaterial({
+    side: THREE.BackSide, depthWrite: false,
+    uniforms: { uArriba: { value: C(0x000000) }, uAbajo: { value: C(0x000000) } },
+    vertexShader: `varying vec3 vP; void main(){ vP=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader: `uniform vec3 uArriba,uAbajo; varying vec3 vP; void main(){ float h=smoothstep(-.15,.7,vP.y); gl_FragColor=vec4(mix(uAbajo,uArriba,h),1.); }`
+  });
+  esc.add(new THREE.Mesh(new THREE.SphereGeometry(150, 32, 16), cieloMat));
+
+  const hemi = new THREE.HemisphereLight(0xcfe7ff, 0x2b2540, 0); esc.add(hemi);
+  const solLuz = new THREE.DirectionalLight(0xfff1d0, 0); solLuz.position.set(-14, 16, -10); esc.add(solLuz);
+
+  // Día 1: la primera luz (un resplandor suave en el centro)
+  const cvG = document.createElement('canvas'); cvG.width = cvG.height = 256;
+  const xg = cvG.getContext('2d'), gg = xg.createRadialGradient(128, 128, 0, 128, 128, 128);
+  gg.addColorStop(0, 'rgba(255,248,225,1)'); gg.addColorStop(.3, 'rgba(255,220,140,.55)'); gg.addColorStop(1, 'rgba(255,200,100,0)');
+  xg.fillStyle = gg; xg.fillRect(0, 0, 256, 256);
+  const brillo = new THREE.CanvasTexture(cvG);
+  const luzPrimera = new THREE.Sprite(new THREE.SpriteMaterial({ map: brillo, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0 }));
+  luzPrimera.position.set(0, 4, -6); esc.add(luzPrimera);
+  // Polvo luminoso de antes de todo
+  const NP = 500, pp = new Float32Array(NP * 3);
+  for (let i = 0; i < NP; i++) pp.set([(Math.random() - .5) * 40, Math.random() * 18 - 2, (Math.random() - .5) * 40 - 4], i * 3);
+  const gPolvo = new THREE.BufferGeometry(); gPolvo.setAttribute('position', new THREE.BufferAttribute(pp, 3));
+  const polvo = new THREE.Points(gPolvo, new THREE.PointsMaterial({ color: 0xffe9b0, size: 0.08, transparent: true, opacity: 0.0, depthWrite: false }));
+  esc.add(polvo);
+
+  // Día 2: el mar con olas
+  const gMar = new THREE.PlaneGeometry(90, 90, 90, 90); gMar.rotateX(-Math.PI / 2);
+  const mar = new THREE.Mesh(gMar, new THREE.MeshStandardMaterial({ color: 0x2f7fc1, roughness: 0.35, metalness: 0.1, transparent: true, opacity: 0, flatShading: true }));
+  esc.add(mar);
+  const posMar = gMar.attributes.position, baseMar = posMar.array.slice();
+
+  // Día 3: la isla y sus plantas
+  const perfil = [V(0, 0, 0), V(6.2, 0, 0), V(6.0, 0.5, 0), V(5.2, 1.0, 0), V(3.5, 1.35, 0), V(1.2, 1.5, 0), V(0, 1.52, 0)].map(p => new THREE.Vector2(p.x, p.y));
+  const isla = new THREE.Mesh(new THREE.LatheGeometry(perfil, 40), new THREE.MeshStandardMaterial({ color: 0x5fae4e, roughness: 0.9, flatShading: true }));
+  esc.add(isla);
+  const arena = new THREE.Mesh(new THREE.CylinderGeometry(6.4, 6.7, 0.5, 40), new THREE.MeshStandardMaterial({ color: 0xe8d39a, roughness: 1 }));
+  arena.position.y = 0.1; isla.add(arena);
+  const plantas = [];
+  const verdes = [0x3f8f3a, 0x4fa64a, 0x2f7a3a];
+  for (let i = 0; i < 16; i++) {
+    const a = i * 2.4, r = 1.2 + (i * 37 % 10) / 10 * 3.6, x = Math.cos(a) * r, z = Math.sin(a) * r;
+    if (x > 1.2 && z > 0.4) continue;
+    const g = new THREE.Group();
+    const tronco = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.12, 0.7, 6), new THREE.MeshStandardMaterial({ color: 0x7a5233 }));
+    tronco.position.y = 0.35; g.add(tronco);
+    const copa = new THREE.Mesh(i % 3 ? new THREE.ConeGeometry(0.5, 1.3, 7) : new THREE.IcosahedronGeometry(0.55, 0), new THREE.MeshStandardMaterial({ color: verdes[i % 3], flatShading: true }));
+    copa.position.y = i % 3 ? 1.25 : 1.05; g.add(copa);
+    g.position.set(x, 1.5 - (r / 6.2) * 0.5 - 0.02, z); g.scale.setScalar(0.001); isla.add(g);
+    plantas.push({ g, d: i / 16 });
+  }
+  const flores = [];
+  const colFlor = [0xffd34d, 0xff7aa8, 0xffffff, 0xb07cff];
+  for (let i = 0; i < 26; i++) {
+    const a = i * 1.7, r = 0.6 + (i * 53 % 10) / 10 * 4.6;
+    const f = new THREE.Mesh(new THREE.SphereGeometry(0.09, 8, 6), new THREE.MeshStandardMaterial({ color: colFlor[i % 4], emissive: colFlor[i % 4], emissiveIntensity: 0.25 }));
+    f.position.set(Math.cos(a) * r, 1.5 - (r / 6.2) * 0.5 + 0.05, Math.sin(a) * r); f.scale.setScalar(0.001); isla.add(f); flores.push({ f, d: i / 26 });
+  }
+
+  // Día 4: sol, luna y estrellas
+  const sol = new THREE.Mesh(new THREE.SphereGeometry(2.2, 32, 16), new THREE.MeshBasicMaterial({ color: 0xffd86b }));
+  sol.position.set(-22, 15, -40); esc.add(sol);
+  const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: brillo, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0 }));
+  halo.scale.setScalar(16); sol.add(halo);
+  const luna = new THREE.Mesh(new THREE.SphereGeometry(1.2, 32, 16), new THREE.MeshStandardMaterial({ color: 0xe8e6f2, emissive: 0x9a97b8, emissiveIntensity: 0.5, roughness: 1 }));
+  luna.position.set(24, 13, -38); esc.add(luna);
+  const NE = 700, pe = new Float32Array(NE * 3);
+  for (let i = 0; i < NE; i++) { const t = Math.random() * Math.PI * 2, u = Math.random() * 0.9 + 0.08; const r = 120; pe.set([Math.cos(t) * Math.sqrt(1 - u * u) * r, u * r, Math.sin(t) * Math.sqrt(1 - u * u) * r], i * 3); }
+  const gE = new THREE.BufferGeometry(); gE.setAttribute('position', new THREE.BufferAttribute(pe, 3));
+  const estrellas = new THREE.Points(gE, new THREE.PointsMaterial({ color: 0xffffff, size: 0.6, transparent: true, opacity: 0, depthWrite: false }));
+  esc.add(estrellas);
+  [sol, luna].forEach(o => o.scale.setScalar(0.001));
+
+  // Día 5: peces que saltan y aves que vuelan
+  const peces = [];
+  for (let i = 0; i < 6; i++) {
+    const p = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 8), new THREE.MeshStandardMaterial({ color: [0xff8a3d, 0x4fd1c5, 0xffd34d][i % 3], roughness: 0.4 }));
+    p.scale.set(1.6, 0.8, 0.6);
+    const cola = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.3, 4), p.material); cola.rotation.z = Math.PI / 2; cola.position.x = -0.32; p.add(cola);
+    p.visible = false; esc.add(p); peces.push({ p, a: i * 1.05, r: 8.5 + (i % 3) * 1.6, fase: i * 0.9 });
+  }
+  const aves = [];
+  for (let i = 0; i < 7; i++) {
+    const g = new THREE.Group();
+    const m = new THREE.MeshBasicMaterial({ color: 0x2a2440, side: THREE.DoubleSide });
+    const ala1 = new THREE.Mesh(new THREE.PlaneGeometry(0.6, 0.12), m), ala2 = ala1.clone();
+    ala1.position.x = 0.28; ala2.position.x = -0.28; g.add(ala1, ala2); g.userData = { ala1, ala2 };
+    g.visible = false; esc.add(g); aves.push({ g, a: i * 0.9, r: 4 + i * 0.9, h: 6 + (i % 3) * 1.2 });
+  }
+
+  // Día 6: animales y una pareja de personas (formas sencillas)
+  const seres = [];
+  const animal = (col, x, z, s = 1) => {
+    const g = new THREE.Group(), m = new THREE.MeshStandardMaterial({ color: col, roughness: 0.9, flatShading: true });
+    const cuerpo = new THREE.Mesh(new THREE.IcosahedronGeometry(0.42, 1), m); cuerpo.scale.set(1.3, 0.9, 0.9); cuerpo.position.y = 0.6;
+    const cabeza = new THREE.Mesh(new THREE.IcosahedronGeometry(0.24, 1), m); cabeza.position.set(0.55, 0.85, 0);
+    g.add(cuerpo, cabeza);
+    for (const [px, pz] of [[0.3, 0.2], [0.3, -0.2], [-0.3, 0.2], [-0.3, -0.2]]) { const pata = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.4, 6), m); pata.position.set(px, 0.2, pz); g.add(pata); }
+    g.position.set(x, 1.32, z); g.rotation.y = Math.atan2(-z, x) + Math.PI / 2; g.scale.setScalar(0.001); isla.add(g); seres.push({ g, s, d: seres.length / 7 });
+  };
+  animal(0xf2efe8, 3.9, 1.9, 0.9); animal(0xf2efe8, 4.4, 0.9, 0.8); animal(0x9a6b45, -2.6, 1.8, 1.1); animal(0xd9a441, -1.4, -2.6, 1.0); animal(0x6e6e78, 3.0, -1.6, 1.2);
+  const persona = (col, x, z) => {
+    const g = new THREE.Group(), m = new THREE.MeshStandardMaterial({ color: col, roughness: 0.8 });
+    const cuerpo = new THREE.Mesh(new THREE.CapsuleGeometry(0.2, 0.55, 4, 10), m); cuerpo.position.y = 0.5;
+    const cabeza = new THREE.Mesh(new THREE.SphereGeometry(0.17, 16, 12), new THREE.MeshStandardMaterial({ color: 0xc98d62, roughness: 0.7 })); cabeza.position.y = 1.08;
+    g.add(cuerpo, cabeza); g.position.set(x, 1.5, z); g.scale.setScalar(0.001); isla.add(g); seres.push({ g, s: 1, d: seres.length / 7 });
+  };
+  persona(0xf2e6c9, 2.3, 3.4); persona(0xd8c39a, 2.85, 3.05);
+
+  // Día 7: luciérnagas doradas de descanso
+  const NL = 120, pl = new Float32Array(NL * 3);
+  for (let i = 0; i < NL; i++) pl.set([(Math.random() - .5) * 14, 1.6 + Math.random() * 3, (Math.random() - .5) * 14], i * 3);
+  const gL = new THREE.BufferGeometry(); gL.setAttribute('position', new THREE.BufferAttribute(pl, 3));
+  const lucis = new THREE.Points(gL, new THREE.PointsMaterial({ color: 0xffd86b, size: 0.12, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending }));
+  esc.add(lucis);
+
+  /* ---------- Cámara: una posición por día ---------- */
+  const K = [
+    [V(0, 5, 22), V(0, 3, 0)],     // oscuridad
+    [V(0, 4.5, 17), V(0, 3.5, -4)], // la luz
+    [V(6, 4, 18), V(0, 0.5, 0)],   // cielo y mar
+    [V(-7, 7, 14), V(0, 1, 0)],    // la tierra
+    [V(2, 3, 16), V(-4, 8, -20)],  // sol, luna y estrellas
+    [V(10, 4, 12), V(0, 2.5, 0)],  // peces y aves
+    [V(6.5, 4.2, 9.5), V(1.4, 1.4, 1.6)],// animales y personas
+    [V(-3, 9, 19), V(0, 1.5, 0)]   // descanso
+  ];
+  const paleta = [ // [arriba, abajo]
+    [0x000000, 0x000000], [0x0d0b2a, 0x1b1640], [0x3b7fd0, 0xa9dcff], [0x4f9ae0, 0xc8ecff],
+    [0x0e1540, 0x3a3f8a], [0x5aa7ef, 0xd2f0ff], [0x67b2f2, 0xffe8c2], [0x3a2f86, 0xffb16b]
+  ];
+  const suave = u => { const a = 0.24, b = 0.76; if (u <= a) return 0; if (u >= b) return 1; const v = (u - a) / (b - a); return v * v * (3 - 2 * v); };
+
+  const nav = document.getElementById('nav');
+  nav.innerHTML = caps.map((c, i) => `<button data-ir="${i}" aria-label="Ir a ${c.dataset.nombre}"><span>${c.dataset.nombre}</span><i>${c.dataset.n}</i></button>`).join('');
+  document.addEventListener('click', ev => { const b = ev.target.closest('[data-ir]'); if (b) { ev.preventDefault(); scrollTo({ top: +b.dataset.ir * PANT / 100 * innerHeight, behavior: 'smooth' }); } });
+  let prog = 0, progVis = 0, mx = 0, my = 0;
+  const leer = () => { prog = clamp(scrollY / (innerHeight * PANT / 100), 0, N - 1); };
+  addEventListener('scroll', leer, { passive: true }); leer();
+  addEventListener('pointermove', ev => { mx = ev.clientX / innerWidth - .5; my = ev.clientY / innerHeight - .5; });
+  addEventListener('resize', () => { cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); ren.setSize(innerWidth, innerHeight); });
+
+  const ayuda = document.getElementById('ayuda'), botones = [...nav.children];
+  const reloj = new THREE.Clock(), pos = V(0, 0, 0), mira = V(0, 0, 0), cA = C(0), cB = C(0);
+  let fpsT = 0, fpsN = 0;
+  function cuadro(){
+    const dt = window.__P !== undefined ? 1 / 24 : Math.min(reloj.getDelta(), 0.05);
+    const t = window.__T !== undefined ? window.__T : reloj.elapsedTime;
+    if (window.__P !== undefined) progVis = window.__P; else progVis += (prog - progVis) * Math.min(1, dt * 4);
+    const p = progVis, k = Math.min(Math.floor(p), N - 2), u = suave(p - k);
+    // Cuánto ha avanzado cada día: empieza a crearse un poco antes de llegar a su parada
+    const dia = d => ease((p - (d - 0.75)) / 0.75);
+
+    pos.lerpVectors(K[k][0], K[k + 1][0], u); mira.lerpVectors(K[k][1], K[k + 1][1], u);
+    const orb = t * 0.05;
+    cam.position.copy(pos).add(V(Math.sin(orb) * 0.6 + mx * 0.8, -my * 0.4, 0)); cam.lookAt(mira);
+    const movil = innerWidth < 760;
+    cam.fov = movil ? 58 : 45; cam.updateProjectionMatrix();
+    cam.setViewOffset(innerWidth, innerHeight, movil ? 0 : -innerWidth * 0.17, movil ? innerHeight * 0.2 : 0, innerWidth, innerHeight);
+
+    // Cielo y luces según el día
+    cA.set(paleta[k][0]).lerp(C(paleta[k + 1][0]), u); cB.set(paleta[k][1]).lerp(C(paleta[k + 1][1]), u);
+    cieloMat.uniforms.uArriba.value.copy(cA); cieloMat.uniforms.uAbajo.value.copy(cB);
+    const d1 = dia(1), d2 = dia(2), d3 = dia(3), d4 = dia(4), d5 = dia(5), d6 = dia(6), d7 = dia(7);
+    hemi.intensity = 0.25 + d1 * 0.7 + d2 * 0.4;
+    solLuz.intensity = d1 * 0.8 + d4 * 1.6;
+    polvo.material.opacity = 0.9 * (1 - d2) * Math.max(0.25, 1 - p * 0.3);
+    luzPrimera.material.opacity = d1 * (1 - d4 * 0.85);
+    luzPrimera.scale.setScalar(4 + d1 * 14 + Math.sin(t * 1.5) * 0.4);
+
+    mar.material.opacity = d2 * 0.95; mar.position.y = -1.2 + d2 * 1.0;
+    for (let i = 0; i < posMar.count; i++) {
+      const x = baseMar[i * 3], z = baseMar[i * 3 + 2];
+      posMar.array[i * 3 + 1] = Math.sin(x * 0.35 + t * 1.2) * 0.12 + Math.cos(z * 0.3 + t * 0.9) * 0.12;
+    }
+    posMar.needsUpdate = true;
+
+    isla.position.y = -2.4 + d3 * 2.2; isla.visible = d3 > 0.001;
+    plantas.forEach(({ g, d }) => g.scale.setScalar(Math.max(0.001, pop((d3 - d * 0.6) / 0.4))));
+    flores.forEach(({ f, d }) => f.scale.setScalar(Math.max(0.001, pop((d3 - 0.3 - d * 0.5) / 0.2))));
+
+    sol.scale.setScalar(Math.max(0.001, pop(d4))); luna.scale.setScalar(Math.max(0.001, pop(d4 - 0.15)));
+    halo.material.opacity = d4 * 0.9; estrellas.material.opacity = d4 * (1 - d5 * 0.75);
+
+    peces.forEach((f, i) => {
+      f.p.visible = d5 > 0.05;
+      const ciclo = (t * 0.5 + f.fase) % 2.4, salto = ciclo < 1 ? Math.sin(ciclo * Math.PI) : 0;
+      const ang = f.a + t * 0.12;
+      f.p.position.set(Math.cos(ang) * f.r, -0.2 + salto * 1.3 * d5, Math.sin(ang) * f.r);
+      f.p.rotation.set(0, -ang, (ciclo < 1 ? Math.cos(ciclo * Math.PI) : 0) * 0.9);
+      f.p.scale.set(1.6 * d5, 0.8 * d5, 0.6 * d5);
+    });
+    aves.forEach(b => {
+      b.g.visible = d5 > 0.05;
+      const ang = b.a + t * 0.3; b.g.position.set(Math.cos(ang) * b.r, b.h + Math.sin(t + b.a) * 0.3, Math.sin(ang) * b.r - 2);
+      b.g.rotation.y = -ang; b.g.scale.setScalar(d5);
+      const aleteo = Math.sin(t * 8 + b.a) * 0.6; b.g.userData.ala1.rotation.z = aleteo; b.g.userData.ala2.rotation.z = -aleteo;
+    });
+    seres.forEach(({ g, s, d }) => { g.scale.setScalar(Math.max(0.001, pop((d6 - d * 0.6) / 0.4) * s)); });
+
+    lucis.material.opacity = d7 * 0.9; lucis.rotation.y = t * 0.03;
+    ren.toneMappingExposure = 0.9 + d7 * 0.15;
+
+    caps.forEach((c, i) => { const d = p - i, o = clamp(1 - Math.abs(d) * 2.4); c.style.opacity = o.toFixed(3); c.style.setProperty('--d', (-d).toFixed(3)); c.classList.toggle('vista', o > 0.05); });
+    const act = Math.round(p); botones.forEach((b, i) => b.classList.toggle('on', i === act));
+    ayuda.style.opacity = p < 0.15 ? 1 : 0;
+    ren.render(esc, cam);
+    fpsT += dt; fpsN++;
+    if (fpsT > 2) { const fps = fpsN / fpsT; fpsT = fpsN = 0; if (fps < 36 && pr > 1) { pr = Math.max(1, pr - 0.4); ren.setPixelRatio(pr); } }
+    requestAnimationFrame(cuadro);
+  }
+  requestAnimationFrame(cuadro);
+}
+</script>
+</body>
+</html>
