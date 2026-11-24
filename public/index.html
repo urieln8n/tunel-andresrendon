@@ -3,23 +3,42 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Andrés Rendón · Webs 3D para negocios de Barcelona</title>
-<meta name="description" content="Diseño y construyo webs 3D para negocios de Barcelona, preparadas para que te encuentren Google y ChatGPT y para que el cliente te escriba por WhatsApp.">
+<title>Andrés Rendón · Tu web a precio cerrado: 390 €</title>
+<meta name="description" content="Web premium para tu negocio a precio cerrado: 390 €. Demo gratis antes de pagar, entrega en 7 días y mantenimiento opcional por 29 €/mes. Barcelona y L'Hospitalet.">
+<meta name="theme-color" content="#060a2e">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&display=swap" rel="stylesheet">
 <style>
 /*
-VOICE: estudio joven de Barcelona; directo, seguro, cercano.
-IDEA: un túnel de luz que recorres con el scroll: cada parada es un capítulo de lo que hago.
+VOICE: de barrio y sin rodeos: el precio se dice al principio, como en un escaparate.
+IDEA: un túnel de luz que recorres con el scroll; cada parada es un paso hasta tu web, y al final está el precio cerrado.
 PICTURE: el propio túnel en tiempo real, con anillos, partículas y los proyectos flotando.
-COLOUR and TYPE: grafito profundo, coral terracota de Barcelona y verde mar; Space Grotesk + Inter.
+COLOUR and TYPE: noche azul cobalto, paredes cobalto y coral, etiqueta de precio en blanco; Archivo 900 + Archivo.
 LAYOUT: texto en la mitad izquierda (abajo en el móvil), navegación lateral discreta.
 */
-:root{color-scheme:dark;--bg:#0b0a0d;--ink:#f4efe9;--soft:#b9b1aa;--coral:#ff6a4a;--mar:#3fd6c6;--card:#17141a}
+:root{color-scheme:dark;--bg:#060a2e;--ink:#f1f3ff;--soft:#b4bbe6;--coral:#ff5a3c;--mar:#6f86ff;--card:#0f1645}
 *{box-sizing:border-box;min-width:0}
 html,body{margin:0;background:var(--bg);color:var(--ink)}
-body{font:17px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
-h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;line-height:1.04;margin:0 0 .35em;text-wrap:balance;letter-spacing:-.01em}
+body{font:17px/1.55 Archivo,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Archivo,system-ui,sans-serif;font-weight:900;line-height:1.04;margin:0 0 .35em;text-wrap:balance;letter-spacing:-.015em}
+h3{font-weight:800}
+.precio-tag{display:inline-block;background:#fff;color:#0b1260;padding:0 .2em;border-radius:.12em;transform:rotate(-2deg);white-space:nowrap}
+.pasos{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:8px;counter-reset:p}
+.pasos li{display:flex;gap:14px;align-items:baseline;padding:12px 16px;border-radius:14px;background:#0f1645cc;backdrop-filter:blur(6px);border:1px solid #ffffff14;color:var(--soft)}
+.pasos li::before{counter-increment:p;content:counter(p);flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--coral);color:#fff;font-weight:800;font-size:14px}
+.pasos b{color:var(--ink)}
+.pasos .paga{margin-left:auto;flex:none;font-size:12px;font-weight:700;color:var(--coral)}
+.lanz{margin-top:12px;padding:12px 16px;border-radius:14px;background:var(--coral);color:#fff;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.lanz b{font-size:20px;font-weight:900;white-space:nowrap}
+.lanz span{flex:1 1 220px;font-size:15px}
+.plazas{display:flex;gap:5px}.plazas i{width:20px;height:20px;border-radius:6px;background:#fff}.plazas i.off{background:#ffffff55}
+.dudas{margin:16px 0 0;display:grid;gap:8px}
+.dudas div{padding:12px 16px;border-radius:14px;background:#0f1645cc;backdrop-filter:blur(6px);border:1px solid #ffffff14}
+.dudas b{display:block;color:var(--ink)}
+.dudas span{color:var(--soft);font-size:15px}
+.mini{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.mini input{flex:1 1 200px;min-height:48px;border-radius:999px;border:1.5px solid #ffffff40;background:#0f1645cc;color:var(--ink);padding:0 18px;font:16px Archivo,sans-serif}
+.mini input::placeholder{color:#b4bbe6aa}
 h1{font-size:clamp(40px,6.2vw,76px)}h2{font-size:clamp(32px,4.4vw,54px)}h3{font-size:20px}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--mar);outline-offset:3px}
@@ -27,14 +46,14 @@ a{color:inherit}
 .velo{position:fixed;inset:0;pointer-events:none;z-index:1;
   background:radial-gradient(120% 90% at 50% 50%,transparent 55%,#000a 100%)}
 .velo-txt{position:fixed;inset:0;pointer-events:none;z-index:2;display:none;
-  background:linear-gradient(90deg,#0b0a0df0 0%,#0b0a0dcc 30%,#0b0a0d55 52%,transparent 66%)}
+  background:linear-gradient(90deg,#060a2ef0 0%,#060a2ecc 30%,#060a2e55 52%,transparent 66%)}
 .tunel .velo-txt{display:block}
 .grano{position:fixed;inset:-50%;pointer-events:none;z-index:1;opacity:.07;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .top{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px max(4vw,16px)}
-.marca{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 18px "Space Grotesk",sans-serif}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 18px Archivo,sans-serif}
 .marca b{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:var(--coral);color:#140806;font-size:15px}
-.marca small{display:block;font:500 12px Inter,sans-serif;color:var(--soft)}
+.marca small{display:block;font:500 12px Archivo,sans-serif;color:var(--soft)}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;background:var(--coral);color:#160805;font-weight:600;text-decoration:none;border:0;cursor:pointer}
 .btn:hover{filter:brightness(1.08)}
 .btn-2{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px #ffffff55}
@@ -44,16 +63,16 @@ a{color:inherit}
 .capitulos{position:relative;z-index:3}
 .cap{min-height:100vh;display:flex;align-items:center;padding:110px max(5vw,18px) 60px}
 .cap>div{max-width:560px}
-.eti{display:inline-block;margin-bottom:14px;padding:4px 12px;border-radius:999px;background:#ff6a4a22;color:var(--coral);font-weight:600;font-size:14px}
+.eti{display:inline-block;margin-bottom:14px;padding:4px 12px;border-radius:999px;background:#ff5a3c22;color:var(--coral);font-weight:600;font-size:14px}
 .cap p{color:var(--soft);font-size:18px;max-width:52ch}
 .acc{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
 .precios{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
-.precios li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 18px;border-radius:14px;background:#17141acc;backdrop-filter:blur(6px);border:1px solid #ffffff14}
-.precios b{font-family:"Space Grotesk",Inter,sans-serif;font-size:22px;color:var(--ink);white-space:nowrap}
+.precios li{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 18px;border-radius:14px;background:#0f1645cc;backdrop-filter:blur(6px);border:1px solid #ffffff14}
+.precios b{font-family:Archivo,system-ui,sans-serif;font-size:22px;color:var(--ink);white-space:nowrap}
 .precios span{color:var(--soft);font-size:15px}
 .precios strong{display:block;color:var(--ink);font-size:16px}
 .proy{list-style:none;padding:0;margin:16px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.proy a{display:block;padding:10px 14px;border-radius:12px;background:#17141acc;border:1px solid #ffffff14;text-decoration:none;backdrop-filter:blur(6px)}
+.proy a{display:block;padding:10px 14px;border-radius:12px;background:#0f1645cc;border:1px solid #ffffff14;text-decoration:none;backdrop-filter:blur(6px)}
 .proy a:hover{border-color:var(--coral)}
 .proy small{display:block;color:var(--mar);font-size:12px;font-weight:600}
 .nota{font-size:14px;color:var(--soft)}
@@ -65,7 +84,7 @@ a{color:inherit}
 .tunel .cap>div{transform:translateY(calc(var(--d,0)*40px))}
 
 .nav{position:fixed;right:max(2vw,10px);top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:10px}
-.nav button{display:flex;align-items:center;justify-content:flex-end;gap:10px;background:none;border:0;color:var(--soft);cursor:pointer;min-height:28px;padding:0;font:500 13px Inter,sans-serif}
+.nav button{display:flex;align-items:center;justify-content:flex-end;gap:10px;background:none;border:0;color:var(--soft);cursor:pointer;min-height:28px;padding:0;font:500 13px Archivo,sans-serif}
 .nav button i{width:9px;height:9px;border-radius:50%;background:#ffffff40;transition:transform .2s,background .2s}
 .nav button span{opacity:0;transition:opacity .2s}
 .nav button:hover span,.nav button.on span{opacity:1}
@@ -77,17 +96,22 @@ a{color:inherit}
 
 /* Sin túnel: página normal, legible y rápida */
 .estatico #escena,.estatico .nav,.estatico .ayuda,.estatico .grano{display:none}
-.estatico body,.estatico{background:radial-gradient(120% 60% at 80% 0%,#3a1610 0%,var(--bg) 60%)}
+.estatico body,.estatico{background:radial-gradient(120% 60% at 80% 0%,#1a2280 0%,var(--bg) 60%)}
 .estatico .cap{min-height:auto;padding-block:clamp(48px,9vh,96px)}
 .estatico .cap:first-child{min-height:92vh}
+.estatico .top{background:#060a2ee6;backdrop-filter:blur(8px)}
 
 @media (max-width:760px){
-  .tunel .velo-txt{background:linear-gradient(0deg,#0b0a0df2 0%,#0b0a0dcc 38%,transparent 62%)}
+  .tunel .velo-txt{background:linear-gradient(0deg,#060a2ef2 0%,#060a2ecc 38%,transparent 62%)}
   .tunel .cap{align-items:flex-end;padding:0 18px 40px}
-  .tunel .cap>div{background:linear-gradient(transparent,#0b0a0de6 18%);padding-top:40px;width:100%}
+  .tunel .cap>div{background:linear-gradient(transparent,#060a2ee6 18%);padding-top:40px;width:100%}
   .nav{display:none}.top .btn{display:none}.ayuda{display:none}
   .proy{grid-template-columns:minmax(0,1fr)}
   .cap p{font-size:16.5px}
+  .tunel .cap>div{max-height:calc(100svh - 70px);overflow-y:auto;overscroll-behavior:contain}
+  .precios li{flex-direction:column;gap:4px}.precios span,.dudas span,.pasos li{font-size:14px}
+  .dudas div,.pasos li{padding:10px 14px}
+  .eti{margin-bottom:8px}
 }
 @media (prefers-reduced-motion:reduce){.ayuda i{animation:none}}
 </style>
@@ -98,32 +122,37 @@ a{color:inherit}
 <div class="velo"></div><div class="velo-txt"></div><div class="grano"></div>
 
 <header class="top">
-  <a class="marca" href="https://www.andresrendon.com/"><b>AR</b><span>Andrés Rendón<small>IA · Webs 3D · AEO</small></span></a>
-  <a class="btn" href="https://www.andresrendon.com/auditoria-gratis">Auditoría gratis</a>
+  <a class="marca" href="https://www.andresrendon.com/"><b>AR</b><span>Andrés Rendón<small>Webs para negocios · precio cerrado</small></span></a>
+  <a class="btn" href="#demo" data-ir="6">Pide tu demo gratis</a>
 </header>
 
 <main class="capitulos" id="capitulos">
   <section class="cap" data-nombre="Inicio" id="inicio"><div>
-    <span class="eti">Andrés Rendón · Barcelona</span>
-    <h1>Webs que tus clientes recuerdan.</h1>
-    <p>Diseño y construyo webs 3D para negocios de Barcelona. Las preparo para que te encuentren Google y ChatGPT, y para que el cliente te escriba por WhatsApp en un toque.</p>
-    <div class="acc"><a class="btn" href="#proyectos" data-ir="3">Ver proyectos</a><a class="btn btn-2" href="https://www.andresrendon.com/auditoria-gratis">Auditoría gratis</a></div>
+    <span class="eti">Barcelona y L'Hospitalet</span>
+    <h1>Tu web, a precio cerrado: <span class="precio-tag">390&nbsp;€</span></h1>
+    <p>Te preparo una demo de tu web <b>gratis y antes de pagar nada</b>. Si te gusta, en 7 días está online. Sin letra pequeña y sin permanencia.</p>
+    <div class="acc"><a class="btn" href="#demo" data-ir="6">Quiero mi demo gratis</a><a class="btn btn-2" href="#como" data-ir="2">Cómo funciona</a></div>
   </div></section>
 
-  <section class="cap" data-nombre="Webs" id="webs"><div>
-    <span class="eti">Qué hago · 1</span>
-    <h2>Webs que se recuerdan</h2>
-    <p>Webs 3D o editoriales, rápidas y pensadas primero para el móvil. Tu producto, tu local o tu oficio en el centro.</p>
+  <section class="cap" data-nombre="El problema" id="problema"><div>
+    <span class="eti">Si te pasa esto, pierdes clientes</span>
+    <h2>Te buscan en el móvil y encuentran a la competencia</h2>
+    <p>No sales en Google, tu web es antigua o lenta, o contestas cada día por WhatsApp lo mismo: precios, horarios y dónde estás. Una buena web lo resuelve antes de que te escriban.</p>
   </div></section>
 
-  <section class="cap" data-nombre="Que te encuentren" id="encuentren"><div>
-    <span class="eti">Qué hago · 2</span>
-    <h2>Que te encuentren</h2>
-    <p>SEO local y AEO: tu negocio bien explicado para Google, Maps y las respuestas de ChatGPT, Perplexity o Gemini.</p>
+  <section class="cap" data-nombre="Cómo funciona" id="como"><div>
+    <span class="eti">Primero lo ves, luego decides</span>
+    <h2>Cuatro pasos hasta tu web</h2>
+    <ol class="pasos">
+      <li><span><b>Me cuentas tu negocio.</b> Por WhatsApp, en dos minutos.</span></li>
+      <li><span><b>Demo gratis en 48 h</b> con tus colores, fotos y precios.</span></li>
+      <li><span><b>Si te gusta, empezamos.</b> Pagas la mitad.</span><span class="paga">50&nbsp;%</span></li>
+      <li><span><b>Online en 7 días.</b> La revisas y pagas el resto.</span><span class="paga">50&nbsp;%</span></li>
+    </ol>
   </div></section>
 
-  <section class="cap" data-nombre="Proyectos" id="proyectos"><div>
-    <span class="eti">Proyectos · 6</span>
+  <section class="cap" data-nombre="Trabajos" id="proyectos"><div>
+    <span class="eti">Trabajos · 6</span>
     <h2>Webs publicadas, propuestas y productos propios</h2>
     <p>Cada uno dice lo que es. Pasan volando a tu lado: tócalos para abrirlos.</p>
     <ul class="proy">
@@ -136,29 +165,37 @@ a{color:inherit}
     </ul>
   </div></section>
 
-  <section class="cap" data-nombre="Que te escriban" id="escriban"><div>
-    <span class="eti">Qué hago · 3</span>
-    <h2>Que te escriban</h2>
-    <p>Un asistente con IA en tu web y WhatsApp con el mensaje ya escrito. Cada contacto, ordenado en un CRM.</p>
-  </div></section>
-
-  <section class="cap" data-nombre="Precios" id="precios"><div>
-    <span class="eti">Precios</span>
-    <h2>Claros desde el principio</h2>
+  <section class="cap" data-nombre="Precio" id="precios"><div>
+    <span class="eti">Precio cerrado</span>
+    <h2>Sabes lo que pagas desde el principio</h2>
     <ul class="precios">
-      <li><span><strong>Web premium</strong>A medida, con SEO local, WhatsApp y formulario</span><b>desde 790 €</b></li>
-      <li><span><strong>Sistema completo</strong>Web, asistente o WhatsApp con IA, CRM y automatizaciones</span><b>desde 1.500 €</b></li>
-      <li><span><strong>Mantenimiento</strong>Cambios, mejoras y soporte cada mes</span><b>desde 97 €/mes</b></li>
+      <li><span><strong>Web premium · pago único</strong>A medida y para móvil, hasta 5 secciones, WhatsApp, mapa, SEO local, alojamiento el primer año y 2 rondas de cambios</span><b>390 €</b></li>
+      <li><span><strong>Mantenimiento · opcional</strong>Alojamiento, copias, cambios pequeños cada mes y soporte por WhatsApp. Sin permanencia</span><b>29 €/mes</b></li>
     </ul>
-    <p class="nota">Orientativos. El presupuesto final sale de la auditoría, que es gratis.</p>
+    <div class="lanz"><b>Lanzamiento: 250 €</b><span>Para los 3 primeros negocios, a cambio de una reseña y de poder enseñar tu web.</span><div class="plazas" id="plazas" aria-label="Plazas de lanzamiento"></div></div>
+    <p class="nota" style="margin-top:12px">El dominio va aparte (unos 10–15 € al año, a tu nombre). Pago por Bizum o transferencia.</p>
   </div></section>
 
-  <section class="cap" data-nombre="Hablamos" id="hablamos"><div>
+  <section class="cap" data-nombre="Dudas" id="dudas"><div>
+    <span class="eti">Lo que me preguntan siempre</span>
+    <h2>Sin sorpresas</h2>
+    <div class="dudas">
+      <div><b>¿Y si la demo no me gusta?</b><span>No pagas nada. Solo seguimos si te convence.</span></div>
+      <div><b>¿La web es mía?</b><span>Sí. El dominio está a tu nombre, sigas o no con el mantenimiento.</span></div>
+      <div><b>¿Y si luego quiero cambios?</b><span>Con mantenimiento van incluidos los pequeños. Sin él, te digo el precio antes de hacerlos.</span></div>
+      <div><b>¿Puedo añadir un asistente con IA?</b><span>Sí, como extra: contesta a tus clientes en la web. Pregúntame.</span></div>
+    </div>
+  </div></section>
+
+  <section class="cap" data-nombre="Tu demo" id="demo"><div>
     <span class="eti">Al final del túnel</span>
     <h2>¿Tu negocio es el siguiente?</h2>
-    <p>Te reviso la web, la ficha de Google y cómo te ve ChatGPT, y te enseño qué cambiaría. Gratis y sin compromiso.</p>
-    <div class="acc"><a class="btn" href="https://www.andresrendon.com/auditoria-gratis">Pedir la auditoría gratis</a><a class="btn btn-2" href="https://wa.me/34645466308?text=Hola%20Andr%C3%A9s%2C%20vengo%20de%20tu%20web%20y%20quiero%20una%20auditor%C3%ADa%20para%20mi%20negocio.">Escribir por WhatsApp</a></div>
-    <p class="nota" style="margin-top:18px">WhatsApp: 645 466 308 · Sígueme en Instagram: <a href="https://www.instagram.com/andresrendon.ai/">@andresrendon.ai</a></p>
+    <p>Dime cómo se llama y te escribo en menos de 24 h. En 48 h ves tu web. Si no te convence, no pagas nada.</p>
+    <form class="mini" id="fdemo">
+      <input id="negocio" name="negocio" autocomplete="organization" placeholder="Nombre de tu negocio" aria-label="Nombre de tu negocio">
+      <button class="btn" type="submit">Pedir demo por WhatsApp</button>
+    </form>
+    <p class="nota" style="margin-top:18px">WhatsApp: <a id="walink" href="https://wa.me/34645466308">645 466 308</a> · Instagram: <a href="https://www.instagram.com/andresrendon.ai/">@andresrendon.ai</a></p>
   </div></section>
 </main>
 
@@ -170,6 +207,18 @@ const raiz = document.documentElement;
 const caps = [...document.querySelectorAll('.cap')];
 const N = caps.length;
 const mov = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* Embudo: WhatsApp y plazas de lanzamiento */
+const WA = '34645466308';   // tu WhatsApp
+const PLAZAS = 3;           // plazas de lanzamiento que quedan (de 3): bájalo con cada cliente
+const waLink = m => `https://wa.me/${WA}?text=${encodeURIComponent(m)}`;
+document.getElementById('walink').href = waLink('Hola Andrés, vengo de tu web y quiero una demo gratis de mi web.');
+document.getElementById('plazas').innerHTML = [0,1,2].map(i => `<i class="${i < PLAZAS ? '' : 'off'}" title="${i < PLAZAS ? 'Libre' : 'Ocupada'}"></i>`).join('');
+document.getElementById('fdemo').addEventListener('submit', ev => {
+  ev.preventDefault();
+  const n = document.getElementById('negocio').value.trim();
+  location.href = waLink(n ? `Hola Andrés, quiero una demo gratis para mi negocio "${n}".` : 'Hola Andrés, vengo de tu web y quiero una demo gratis de mi web.');
+});
 
 let THREE, EffectComposer, RenderPass, UnrealBloomPass, OutputPass;
 const webgl = (() => { try { const c = document.createElement('canvas'); return !!c.getContext('webgl2'); } catch { return false; } })();
@@ -197,8 +246,8 @@ function iniciar(){
   ren.setPixelRatio(pr);
   ren.setSize(innerWidth, innerHeight);
   const escena = new THREE.Scene();
-  escena.background = new THREE.Color(0x0b0a0d);
-  escena.fog = new THREE.FogExp2(0x0b0a0d, 0.018);
+  escena.background = new THREE.Color(0x060a2e);
+  escena.fog = new THREE.FogExp2(0x060a2e, 0.018);
   const cam = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.1, 400);
 
   // Recorrido: una curva suave que serpentea hacia el fondo
@@ -215,7 +264,7 @@ function iniciar(){
   const tubo = new THREE.TubeGeometry(curva, 700, R, 48, false);
   const matTubo = new THREE.ShaderMaterial({
     side: THREE.BackSide, fog: false,
-    uniforms: { uT: { value: 0 }, uVel: { value: 0 }, uA: { value: new THREE.Color(0xff6a4a) }, uB: { value: new THREE.Color(0x3fd6c6) } },
+    uniforms: { uT: { value: 0 }, uVel: { value: 0 }, uA: { value: new THREE.Color(0xff5a3c) }, uB: { value: new THREE.Color(0x4d6bff) } },
     vertexShader: `varying vec2 vUv; varying float vD; void main(){ vUv=uv; vec4 mv=modelViewMatrix*vec4(position,1.); vD=-mv.z; gl_Position=projectionMatrix*mv; }`,
     fragmentShader: `uniform float uT,uVel; uniform vec3 uA,uB; varying vec2 vUv; varying float vD;
       float linea(float x,float w){ float f=abs(fract(x)-.5); return smoothstep(.5-w,.5,f); }
@@ -238,7 +287,7 @@ function iniciar(){
   const geoAn = new THREE.TorusGeometry(R * 0.93, 0.05, 8, 96);
   for (let i = 1; i < 46; i++) {
     const t = i / 46;
-    const m = new THREE.Mesh(geoAn, new THREE.MeshBasicMaterial({ color: i % 4 ? 0xff6a4a : 0x3fd6c6, transparent: true, opacity: 0.85 }));
+    const m = new THREE.Mesh(geoAn, new THREE.MeshBasicMaterial({ color: i % 4 ? 0x4d6bff : 0xff5a3c, transparent: true, opacity: 0.85 }));
     m.position.copy(curva.getPointAt(t));
     m.lookAt(curva.getPointAt(Math.min(t + 0.001, 1)));
     escena.add(m); anillos.push(m);
@@ -252,7 +301,7 @@ function iniciar(){
     pos.set([p.x + Math.cos(ang) * rr, p.y + Math.sin(ang) * rr, p.z], i * 3);
   }
   const gp = new THREE.BufferGeometry(); gp.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  const polvo = new THREE.Points(gp, new THREE.PointsMaterial({ color: 0xffe3d6, size: 0.07, transparent: true, opacity: 0.8, depthWrite: false }));
+  const polvo = new THREE.Points(gp, new THREE.PointsMaterial({ color: 0xdfe5ff, size: 0.07, transparent: true, opacity: 0.8, depthWrite: false }));
   escena.add(polvo);
 
   // Paradas: un capítulo cada cierta distancia; la última es la luz del final
@@ -273,13 +322,13 @@ function iniciar(){
   proyectos.forEach(([tipo, nom, txt, url], k) => {
     const cv = document.createElement('canvas'); cv.width = 768; cv.height = 432;
     const x = cv.getContext('2d');
-    const gr = x.createLinearGradient(0, 0, 768, 432); gr.addColorStop(0, '#221a20'); gr.addColorStop(1, '#100d12');
+    const gr = x.createLinearGradient(0, 0, 768, 432); gr.addColorStop(0, '#18205a'); gr.addColorStop(1, '#0a0f38');
     x.fillStyle = gr; x.beginPath(); x.roundRect(4, 4, 760, 424, 34); x.fill();
-    x.lineWidth = 4; x.strokeStyle = k % 2 ? '#3fd6c6' : '#ff6a4a'; x.stroke();
-    x.fillStyle = k % 2 ? '#3fd6c6' : '#ff6a4a'; x.font = '600 30px Inter, sans-serif'; x.fillText(tipo.toUpperCase(), 48, 86);
-    x.fillStyle = '#f4efe9'; x.font = '700 70px "Space Grotesk", sans-serif'; x.fillText(nom, 48, 200);
-    x.fillStyle = '#b9b1aa'; x.font = '400 34px Inter, sans-serif'; x.fillText(txt, 48, 270);
-    x.fillStyle = '#f4efe9'; x.font = '500 28px Inter, sans-serif'; x.fillText(url.replace(/^https:\/\/|\/$/g, '') + '  ↗', 48, 372);
+    x.lineWidth = 4; x.strokeStyle = k % 2 ? '#6f86ff' : '#ff5a3c'; x.stroke();
+    x.fillStyle = k % 2 ? '#6f86ff' : '#ff5a3c'; x.font = '600 30px Archivo, sans-serif'; x.fillText(tipo.toUpperCase(), 48, 86);
+    x.fillStyle = '#f1f3ff'; x.font = '900 66px Archivo, sans-serif'; x.fillText(nom, 48, 200);
+    x.fillStyle = '#b4bbe6'; x.font = '400 34px Archivo, sans-serif'; x.fillText(txt, 48, 270);
+    x.fillStyle = '#f1f3ff'; x.font = '500 28px Archivo, sans-serif'; x.fillText(url.replace(/^https:\/\/|\/$/g, '') + '  ↗', 48, 372);
     const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
     const m = new THREE.Mesh(new THREE.PlaneGeometry(4.2, 2.36), new THREE.MeshBasicMaterial({ map: tex, transparent: true, toneMapped: false, fog: true }));
     m.userData = { url, k };
@@ -303,7 +352,7 @@ function iniciar(){
   // Luz al final del túnel (suave, sin lavar la pantalla)
   const cvL = document.createElement('canvas'); cvL.width = cvL.height = 256;
   const xL = cvL.getContext('2d'), gL = xL.createRadialGradient(128,128,0,128,128,128);
-  gL.addColorStop(0,'rgba(255,240,230,1)'); gL.addColorStop(.25,'rgba(255,200,170,.85)'); gL.addColorStop(.6,'rgba(255,106,74,.25)'); gL.addColorStop(1,'rgba(255,106,74,0)');
+  gL.addColorStop(0,'rgba(245,247,255,1)'); gL.addColorStop(.25,'rgba(200,210,255,.85)'); gL.addColorStop(.6,'rgba(255,90,60,.25)'); gL.addColorStop(1,'rgba(255,90,60,0)');
   xL.fillStyle = gL; xL.fillRect(0,0,256,256);
   const luz = new THREE.Mesh(new THREE.PlaneGeometry(R * 3.2, R * 3.2), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(cvL), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false, fog: false }));
   const fin = curva.getPointAt(0.995);
@@ -335,7 +384,7 @@ function iniciar(){
   const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
   lienzo.style.pointerEvents = 'auto';
   addEventListener('click', ev => {
-    if (ev.target.closest('a,button')) return;
+    if (ev.target.closest('a,button,input,form')) return;
     ptr.set(ev.clientX / innerWidth * 2 - 1, -(ev.clientY / innerHeight) * 2 + 1);
     ray.setFromCamera(ptr, cam);
     const h = ray.intersectObjects(paneles)[0];
