@@ -12,7 +12,7 @@
 <style>
 /*
 IDEA: el mismo túnel de tunel.andresrendon.com convertido en presentación. Cada parada es una estación del directo.
-USO EN DIRECTO: flechas / espacio = siguiente o anterior · N = notas del presentador · F = pantalla completa · T = reinicia el reloj.
+USO EN DIRECTO: flechas / espacio = siguiente o anterior · N = notas · F = pantalla completa · T = reinicia el reloj · D = rotulador · L = láser · C = borrar.
 */
 :root{color-scheme:dark;--bg:#060a2e;--ink:#f1f3ff;--soft:#b4bbe6;--coral:#ff5a3c;--mar:#6f86ff;--card:#0f1645}
 *{box-sizing:border-box;min-width:0}
@@ -58,6 +58,18 @@ a{color:inherit}
 .escalera em{font-style:normal;font-weight:800;color:var(--coral);white-space:nowrap}
 .nota{font-size:14px;color:var(--soft)}
 .notas{display:none}
+.herr{list-style:none;padding:0;margin:18px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.herr li{display:flex;flex-direction:column;gap:2px;padding:14px;border-radius:14px;background:#0f1645cc;border:1px solid #ffffff14;backdrop-filter:blur(6px)}
+.herr b{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#ffffff10;border:1px solid #ffffff22;color:var(--coral);font:900 15px Archivo,sans-serif;margin-bottom:8px}
+.herr span{color:var(--ink);font-weight:700}.herr small{color:var(--soft);font-size:13px}
+.modulo{display:block;font:600 13px "JetBrains Mono",monospace;letter-spacing:.14em;color:#ffcf6b;margin-bottom:10px}
+#pizarra{position:fixed;inset:0;z-index:6;pointer-events:none}
+.dibujando #pizarra{pointer-events:auto;cursor:crosshair}
+.laser #pizarra{pointer-events:auto;cursor:none}
+.modo{position:fixed;left:16px;bottom:16px;z-index:7;padding:6px 12px;border-radius:999px;background:#030620e6;border:1px solid #ff3b3b66;color:#ffd2d2;font:600 13px Archivo,sans-serif;display:none}
+.dibujando .modo,.laser .modo{display:block}
+@media (max-width:760px){.herr{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 
 .tunel .capitulos{height:var(--alto,900vh)}
 .tunel .cap{position:fixed;inset:0;opacity:0;visibility:hidden;pointer-events:none}
@@ -153,6 +165,24 @@ a{color:inherit}
     </ul></aside>
   </div></section>
 
+  <section class="cap" data-nombre="Herramientas" data-min="3"><div>
+    <span class="eti">Lo que vamos a usar hoy</span>
+    <h2>Tu equipo de desarrollo</h2>
+    <ul class="herr">
+      <li><b>VS</b><span>VS Code</span><small>el taller</small></li>
+      <li><b>CC</b><span>Claude Code</span><small>el programador</small></li>
+      <li><b>AI</b><span>Claude</span><small>el cerebro</small></li>
+      <li><b>Git</b><span>Git</span><small>las versiones</small></li>
+      <li><b>GH</b><span>GitHub</span><small>la nube del código</small></li>
+      <li><b>CF</b><span>Cloudflare</span><small>publicar en internet</small></li>
+    </ul>
+    <p class="nota" style="margin-top:14px">Todo gratis menos el cerebro: Claude necesita un plan de pago.</p>
+    <aside class="notas"><ul>
+      <li>Señala cada tarjeta con el láser (tecla L) y di para qué sirve en una frase.</li>
+      <li>Analogía: VS Code es «el Word del código»; GitHub, «el Google Drive del código».</li>
+    </ul></aside>
+  </div></section>
+
   <section class="cap" data-nombre="Qué es Claude Code" data-min="5"><div>
     <span class="eti">Sin dar nada por sabido</span>
     <h2>Claude Code no es un chat: trabaja dentro de tu carpeta</h2>
@@ -240,13 +270,13 @@ Todo en un solo archivo index.html, sin instalar nada.<button type="button" id="
     <p>Un negocio no compra «una web»: compra que le encuentren y le escriban. Empieza por entender su problema.</p>
     <div class="escalera">
       <div><span><b>1. Diagnóstico</b><br>auditoría del negocio y de su web</span><em>el primer encargo</em></div>
-      <div><span><b>2. Implementación</b><br>web, asistente con IA, automatizaciones</span><em>web desde 390 €</em></div>
-      <div><span><b>3. Cuota mensual</b><br>mantenimiento y mejoras</span><em>desde 29 €/mes</em></div>
+      <div><span><b>2. Implementación</b><br>web, asistente con IA, automatizaciones</span><em>el proyecto</em></div>
+      <div><span><b>3. Cuota mensual</b><br>mantenimiento y mejoras</span><em>cada mes</em></div>
       <div><span><b>4. Formación</b><br>enseñar al equipo del negocio</span><em>más adelante</em></div>
     </div>
     <aside class="notas"><ul>
       <li>Explica la escalera de abajo arriba: primero confianza, luego proyecto, luego cuota.</li>
-      <li>Precios: son los tuyos actuales. No prometas cifras de ingresos.</li>
+      <li>No digas precios ni cifras de ingresos: explica el orden en que se vende.</li>
       <li>Tarea para casa: encontrar un negocio de su calle y auditarlo.</li>
     </ul></aside>
   </div></section>
@@ -280,8 +310,10 @@ Todo en un solo archivo index.html, sin instalar nada.<button type="button" id="
   </div></section>
 </main>
 
+<canvas id="pizarra" aria-hidden="true"></canvas>
+<div class="modo" id="modo"></div>
 <nav class="nav" id="nav" aria-label="Estaciones del directo"></nav>
-<div class="ayuda" id="ayuda"><kbd>→</kbd> siguiente · <kbd>N</kbd> notas · <kbd>F</kbd> pantalla completa</div>
+<div class="ayuda" id="ayuda"><kbd>→</kbd> siguiente · <kbd>N</kbd> notas · <kbd>F</kbd> pantalla completa · <kbd>D</kbd> dibujar · <kbd>L</kbd> láser</div>
 <section class="panel" id="panel" aria-live="polite">
   <header><span id="pEst">1/12</span><span id="pReloj">00:00</span></header>
   <div class="meta" id="pMeta"></div>
@@ -302,6 +334,39 @@ document.getElementById('copiar').addEventListener('click', async ev => {
   setTimeout(() => ev.target.textContent = 'Copiar', 1800);
 });
 
+
+/* Numeración "MÓDULO 03 / 13" encima de cada estación */
+caps.forEach((c, i) => { const d = c.querySelector(':scope > div'); const m = document.createElement('span'); m.className = 'modulo'; m.textContent = `MÓDULO ${String(i + 1).padStart(2, '0')} / ${String(N).padStart(2, '0')}`; d.prepend(m); });
+
+/* Rotulador (D), láser (L) y borrar (C), como en una pizarra */
+const piz = document.getElementById('pizarra'), pctx = piz.getContext('2d'), modoTxt = document.getElementById('modo');
+let modo = null, trazos = [], trazo = null, rastro = [];
+const ajustar = () => { const r = devicePixelRatio || 1; piz.width = innerWidth * r; piz.height = innerHeight * r; pctx.setTransform(r, 0, 0, r, 0, 0); };
+ajustar(); addEventListener('resize', ajustar);
+function fijarModo(m){
+  modo = modo === m ? null : m;
+  raiz.classList.toggle('dibujando', modo === 'd'); raiz.classList.toggle('laser', modo === 'l');
+  modoTxt.textContent = modo === 'd' ? 'Rotulador · C borra · D sale' : modo === 'l' ? 'Láser · L sale' : '';
+}
+piz.addEventListener('pointerdown', e => { if (modo === 'd') { trazo = [[e.clientX, e.clientY]]; trazos.push(trazo); piz.setPointerCapture(e.pointerId); } });
+piz.addEventListener('pointermove', e => {
+  if (modo === 'd' && trazo) trazo.push([e.clientX, e.clientY]);
+  if (modo === 'l') rastro.push([e.clientX, e.clientY, performance.now()]);
+});
+addEventListener('pointerup', () => { trazo = null; });
+function pintarPizarra(){
+  pctx.clearRect(0, 0, innerWidth, innerHeight);
+  pctx.lineCap = pctx.lineJoin = 'round';
+  pctx.strokeStyle = '#ff3b3b'; pctx.lineWidth = 5; pctx.shadowColor = '#ff3b3b'; pctx.shadowBlur = 8;
+  for (const t of trazos) { pctx.beginPath(); t.forEach(([x, y], i) => i ? pctx.lineTo(x, y) : pctx.moveTo(x, y)); pctx.stroke(); }
+  const ahora = performance.now(); rastro = rastro.filter(p => ahora - p[2] < 450);
+  rastro.forEach(([x, y, t], i) => { const a = 1 - (ahora - t) / 450; pctx.globalAlpha = a; pctx.fillStyle = '#ff2d2d'; pctx.beginPath(); pctx.arc(x, y, 3 + a * 6, 0, Math.PI * 2); pctx.fill(); });
+  pctx.globalAlpha = 1; pctx.shadowBlur = 0;
+  requestAnimationFrame(pintarPizarra);
+}
+requestAnimationFrame(pintarPizarra);
+const borrar = () => { trazos = []; };
+
 /* Estación actual, navegación con teclado y panel del presentador */
 let actual = 0, inicio = null, destino = null;
 const total = caps.reduce((s, c) => s + (+c.dataset.min || 0), 0);
@@ -320,7 +385,7 @@ function pintarPanel(){
   const notas = c.querySelector('.notas');
   document.getElementById('pNotas').innerHTML = notas ? notas.innerHTML : '';
 }
-const fijarActual = i => { if (i !== actual) { actual = i; pintarPanel(); } if (destino === i) destino = null; };
+const fijarActual = i => { if (i !== actual) { actual = i; borrar(); pintarPanel(); } if (destino === i) destino = null; };
 const base = () => destino ?? actual;
 addEventListener('wheel', () => { destino = null; }, { passive: true });
 addEventListener('touchstart', () => { destino = null; }, { passive: true });
@@ -339,6 +404,10 @@ addEventListener('keydown', ev => {
   else if (k === 'n' || k === 'N') { panel.classList.toggle('on'); pintarPanel(); }
   else if (k === 'f' || k === 'F') { document.fullscreenElement ? document.exitFullscreen() : raiz.requestFullscreen?.(); }
   else if (k === 't' || k === 'T') { inicio = Date.now(); }
+  else if (k === 'd' || k === 'D') fijarModo('d');
+  else if (k === 'l' || k === 'L') fijarModo('l');
+  else if (k === 'c' || k === 'C') borrar();
+  else if (k === 'Escape' && modo) fijarModo(modo);
 });
 pintarPanel();
 
