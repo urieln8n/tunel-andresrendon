@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Directo #1 · Monta tu agencia de IA desde cero · Andrés AI Studio</title>
+<meta name="description" content="Guion del directo #1 de Andrés AI Studio: de cero a tu primera entrega con IA. Carpeta, VS Code, Claude Code, una web publicada en directo y qué vender primero.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#060a2e">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/*
+IDEA: el mismo túnel de tunel.andresrendon.com convertido en presentación. Cada parada es una estación del directo.
+USO EN DIRECTO: flechas / espacio = siguiente o anterior · N = notas del presentador · F = pantalla completa · T = reinicia el reloj.
+*/
+:root{color-scheme:dark;--bg:#060a2e;--ink:#f1f3ff;--soft:#b4bbe6;--coral:#ff5a3c;--mar:#6f86ff;--card:#0f1645}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font:17px/1.55 Archivo,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Archivo,system-ui,sans-serif;font-weight:900;line-height:1.04;margin:0 0 .35em;text-wrap:balance;letter-spacing:-.015em}
+h1{font-size:clamp(40px,6.2vw,78px)}h2{font-size:clamp(32px,4.4vw,56px)}
+.tag{display:inline-block;background:#fff;color:#0b1260;padding:0 .2em;border-radius:.12em;transform:rotate(-2deg);white-space:nowrap}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--mar);outline-offset:3px}
+#escena{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+.velo{position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(120% 90% at 50% 50%,transparent 55%,#000a 100%)}
+.velo-txt{position:fixed;inset:0;pointer-events:none;z-index:2;display:none;background:linear-gradient(90deg,#060a2ef0 0%,#060a2ecc 32%,#060a2e55 54%,transparent 68%)}
+.tunel .velo-txt{display:block}
+.top{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px max(4vw,16px)}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 18px Archivo,sans-serif}
+.marca b{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:var(--coral);color:#140806;font-size:15px}
+.marca small{display:block;font:500 12px Archivo,sans-serif;color:var(--soft)}
+.vivo{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:#ff5a3c22;color:#ffd2c9;font-weight:600;font-size:14px}
+.vivo i{width:9px;height:9px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 0 #ff5a3c99;animation:late 1.6s infinite}
+@keyframes late{to{box-shadow:0 0 0 10px #ff5a3c00}}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;background:var(--coral);color:#160805;font-weight:600;text-decoration:none;border:0;cursor:pointer;font-size:16px}
+.btn-2{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px #ffffff55}
+.acc{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+
+.capitulos{position:relative;z-index:3}
+.cap{min-height:100vh;display:flex;align-items:center;padding:110px max(5vw,18px) 60px}
+.cap>div{max-width:600px}
+.eti{display:inline-block;margin-bottom:14px;padding:4px 12px;border-radius:999px;background:#ff5a3c22;color:var(--coral);font-weight:600;font-size:14px}
+.cap p{color:var(--soft);font-size:19px;max-width:52ch}
+.cap p b{color:var(--ink)}
+.lista{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:8px;counter-reset:p}
+.lista li{display:flex;gap:14px;align-items:baseline;padding:12px 16px;border-radius:14px;background:#0f1645cc;backdrop-filter:blur(6px);border:1px solid #ffffff14;color:var(--soft)}
+.lista.num li::before{counter-increment:p;content:counter(p);flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--coral);color:#fff;font-weight:800;font-size:14px}
+.lista b{color:var(--ink)}
+.lista .der{margin-left:auto;flex:none;font-size:13px;font-weight:700;color:var(--coral);white-space:nowrap}
+.codigo{margin:16px 0 0;padding:44px 18px 16px;border-radius:14px;background:#030620e6;border:1px solid #6f86ff44;font:500 15px/1.6 "JetBrains Mono",ui-monospace,monospace;color:#dfe5ff;white-space:pre-wrap;position:relative}
+.codigo button{position:absolute;top:10px;right:10px;border:0;border-radius:999px;padding:4px 12px;background:#6f86ff33;color:#dfe5ff;font:600 12px Archivo,sans-serif;cursor:pointer}
+.escalera{display:grid;gap:8px;margin-top:18px}
+.escalera div{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:12px 16px;border-radius:14px;background:#0f1645cc;border:1px solid #ffffff14}
+.escalera div:nth-child(1){margin-right:18%}.escalera div:nth-child(2){margin-right:10%}.escalera div:nth-child(3){margin-right:4%}
+.escalera b{color:var(--ink)}.escalera span{color:var(--soft);font-size:15px}
+.escalera em{font-style:normal;font-weight:800;color:var(--coral);white-space:nowrap}
+.nota{font-size:14px;color:var(--soft)}
+.notas{display:none}
+
+.tunel .capitulos{height:var(--alto,900vh)}
+.tunel .cap{position:fixed;inset:0;opacity:0;visibility:hidden;pointer-events:none}
+.tunel .cap.vista{visibility:visible}
+.tunel .cap.vista>div{pointer-events:auto}
+.tunel .cap>div{transform:translateY(calc(var(--d,0)*40px))}
+
+.nav{position:fixed;right:max(2vw,10px);top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:9px}
+.nav button{display:flex;align-items:center;justify-content:flex-end;gap:10px;background:none;border:0;color:var(--soft);cursor:pointer;min-height:24px;padding:0;font:500 13px Archivo,sans-serif}
+.nav button i{width:9px;height:9px;border-radius:50%;background:#ffffff40;transition:transform .2s,background .2s}
+.nav button span{opacity:0;transition:opacity .2s}
+.nav button:hover span,.nav button.on span{opacity:1}
+.nav button.on i{background:var(--coral);transform:scale(1.5)}
+.ayuda{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:4;color:var(--soft);font-size:14px;transition:opacity .4s;text-align:center}
+.ayuda kbd{display:inline-block;padding:1px 7px;border-radius:6px;background:#ffffff1a;font:600 12px Archivo,sans-serif;color:var(--ink)}
+
+/* Panel del presentador (tecla N) */
+.panel{position:fixed;right:16px;bottom:16px;z-index:8;width:min(440px,calc(100vw - 32px));max-height:60vh;overflow:auto;padding:16px 18px;border-radius:16px;background:#030620f2;border:1px solid #6f86ff55;box-shadow:0 20px 60px #0009;display:none}
+.panel.on{display:block}
+.panel header{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px;font-weight:800}
+.panel header span{font:500 14px "JetBrains Mono",monospace;color:var(--coral)}
+.panel .meta{font-size:13px;color:var(--soft);margin-bottom:10px}
+.panel ul{margin:0;padding-left:18px;color:#dfe5ff;font-size:15px;line-height:1.5}
+.panel li{margin:4px 0}
+
+.estatico #escena,.estatico .nav,.estatico .ayuda{display:none}
+.estatico body,.estatico{background:radial-gradient(120% 60% at 80% 0%,#1a2280 0%,var(--bg) 60%)}
+.estatico .cap{min-height:auto;padding-block:clamp(48px,9vh,96px)}
+.estatico .cap:first-child{min-height:92vh}
+.estatico .top{background:#060a2ee6;backdrop-filter:blur(8px)}
+
+@media (max-width:760px){
+  .tunel .velo-txt{background:linear-gradient(0deg,#060a2ef2 0%,#060a2ecc 40%,transparent 64%)}
+  .tunel .cap{align-items:flex-end;padding:0 18px 40px}
+  .tunel .cap>div{background:linear-gradient(transparent,#060a2ee6 18%);padding-top:40px;width:100%;max-height:calc(100svh - 70px);overflow-y:auto;overscroll-behavior:contain}
+  .nav,.ayuda{display:none}.vivo{font-size:12px}
+  .cap p{font-size:16.5px}.lista li{font-size:14px;padding:10px 14px}.codigo{font-size:13px}
+  .escalera div{margin-right:0!important;flex-direction:column;align-items:flex-start;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){.vivo i{animation:none}}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+</head>
+<body>
+<canvas id="escena" aria-hidden="true"></canvas>
+<div class="velo"></div><div class="velo-txt"></div>
+
+<header class="top">
+  <a class="marca" href="https://www.andresrendon.com/"><b>AR</b><span>Andrés AI Studio<small>Monta tu agencia de IA desde cero</small></span></a>
+  <span class="vivo"><i></i>Directo #1</span>
+</header>
+
+<main class="capitulos" id="capitulos">
+
+  <section class="cap" data-nombre="Portada" data-min="2"><div>
+    <span class="eti">Directo #1 · Monta tu agencia de IA desde cero</span>
+    <h1>De cero a tu <span class="tag">primera entrega</span> con IA</h1>
+    <p>Hoy, en directo: preparamos tu taller, creamos una web real con Claude, la publicamos en internet y te cuento <b>qué vender primero</b> para cobrar por ello.</p>
+    <aside class="notas"><ul>
+      <li>Saluda y di la promesa en 1 frase: «Al acabar, tendrás una web en internet hecha por ti».</li>
+      <li>Pide que escriban en el chat desde dónde ven el directo.</li>
+      <li>Aviso: el enlace a esta página y al regalo va en la descripción.</li>
+    </ul></aside>
+  </div></section>
+
+  <section class="cap" data-nombre="Quién soy" data-min="4"><div>
+    <span class="eti">Por qué te lo cuento yo</span>
+    <h2>No soy programador. Llevo dos años construyendo con IA.</h2>
+    <p>Trabajo de noche y quiero dejar de hacerlo. Con VS Code, ChatGPT y Claude he hecho webs para negocios reales, un auditor que mide si ChatGPT te recomienda y AI Market, que sigue qué cambia en la IA cada día.</p>
+    <ul class="lista">
+      <li><span><b>Avancés Campus</b> · taller de Barcelona: web 3D nueva</span><span class="der">92/100 en mi auditor</span></li>
+      <li><span><b>Auditor IA</b> · mide si la IA puede leer y citar una web</span><span class="der">producto propio</span></li>
+      <li><span><b>AI Market</b> · 535 proyectos de IA seguidos a diario</span><span class="der">producto propio</span></li>
+    </ul>
+    <aside class="notas"><ul>
+      <li>Cuenta tu historia corta y real: turno de noche, empezar desde cero, horas con Claude.</li>
+      <li>Enseña la web de Avancés en otra pestaña (avancescampus.andresrendon.com).</li>
+      <li>No prometas dinero: «te enseño lo que yo hago».</li>
+    </ul></aside>
+  </div></section>
+
+  <section class="cap" data-nombre="Hoy aprendes" data-min="2"><div>
+    <span class="eti">El plan de hoy</span>
+    <h2>Tres cosas, en este orden</h2>
+    <ol class="lista num">
+      <li><span><b>Tu taller:</b> una carpeta, VS Code y Claude Code.</span></li>
+      <li><span><b>Una web real</b> creada y publicada en directo.</span></li>
+      <li><span><b>Cómo se cobra:</b> qué vender primero a un negocio.</span></li>
+    </ol>
+    <aside class="notas"><ul>
+      <li>Di cuánto dura: «unos 60–75 minutos, y al final preguntas».</li>
+      <li>Pide que te sigan con su ordenador: «pausa cuando lo necesites».</li>
+    </ul></aside>
+  </div></section>
+
+  <section class="cap" data-nombre="Qué es Claude Code" data-min="5"><div>
+    <span class="eti">Sin dar nada por sabido</span>
+    <h2>Claude Code no es un chat: trabaja dentro de tu carpeta</h2>
+    <p>En el chat copias y pegas. Claude Code <b>lee, crea y cambia los archivos de tu proyecto</b> mientras tú le hablas en español. Tú decides qué hacer; él escribe el código.</p>
+    <ul class="lista">
+      <li><span><b>Claude.ai</b> · pensar, escribir, investigar</span></li>
+      <li><span><b>Claude Code</b> · construir: webs, apps, automatizaciones</span></li>
+    </ul>
+    <aside class="notas"><ul>
+      <li>Comparación: «el chat te da la receta; Claude Code cocina en tu cocina».</li>
+      <li>Necesitas un plan de pago de Claude para usarlo con soltura: dilo claro, sin vender nada.</li>
+    </ul></aside>
+  </div></section>
+
+  <section class="cap" data-nombre="Tu taller" data-min="8"><div>
+    <span class="eti">Pasos 1, 2 y 3 · en directo</span>
+    <h2>Monta tu taller en 5 minutos</h2>
+    <ol class="lista num">
+      <li><span><b>Crea una carpeta</b> en el Escritorio: <code>mi-primera-web</code></span></li>
+      <li><span><b>Instala VS Code</b> (gratis) y abre la carpeta: Archivo → Abrir carpeta.</span></li>
+      <li><span><b>Instala la extensión Claude Code</b> desde Extensiones y entra con tu cuenta.</span></li>
+    </ol>
+    <aside class="notas"><ul>
+      <li>Hazlo de verdad en pantalla, despacio. Sin atajos de teclado raros.</li>
+      <li>En Windows: clic derecho en el Escritorio → Nuevo → Carpeta.</li>
+      <li>Pregunta en el chat: «¿quién ya tiene VS Code abierto?».</li>
+    </ul></aside>
+  </div></section>
+
+  <section class="cap" data-nombre="Primer prompt" data-min="12"><div>
+    <span class="eti">Paso 4 · copia este prompt</span>
+    <h2>Le pedimos una web para un negocio de verdad</h2>
+    <div class="codigo" id="prompt">Crea una web de una sola página para «Peluquería Lola», en L'Hospitalet de Llobregat.
+Público: vecinos del barrio que la buscan en el móvil.
+Secciones: portada con un botón de WhatsApp, servicios con precios, horario, cómo llegar y opiniones.
+Estilo: cálido y moderno, que se vea perfecta en el móvil.
+Todo en un solo archivo index.html, sin instalar nada.<button type="button" id="copiar">Copiar</button></div>
+    <p class="nota" style="margin-top:12px">Cambia «Peluquería Lola» por un negocio de tu calle.</p>
+    <aside class="notas"><ul>
+      <li>Pega el prompt en Claude Code y lee en voz alta lo que va haciendo.</li>
+      <li>Explica cada parte: quién es el público, qué secciones, qué estilo.</li>
+      <li>Si algo sale raro, corrígelo hablando: «el botón de WhatsApp más grande».</li>
+    </ul></aside>
+  </div></section>
+
+  <section class="cap" data-nombre="Verla" data-min="5"><div>
+    <span class="eti">Paso 5</span>
+    <h2>Ábrela en el navegador y pide cambios</h2>
+    <p>Doble clic en <b>index.html</b>. Ya tienes una web. Ahora la mejoras hablando: «pon fotos del local», «añade un mapa», «haz el título más grande».</p>
+    <aside class="notas"><ul>
+      <li>Haz 2 o 3 cambios en directo pedidos por el chat.</li>
+      <li>Enséñala en modo móvil (F12 → icono del móvil).</li>
+    </ul></aside>
+  </div></section>
+
+  <section class="cap" data-nombre="Publicarla" data-min="10"><div>
+    <span class="eti">Pasos 6 y 7</span>
+    <h2>De tu ordenador a internet</h2>
+    <ol class="lista num">
+      <li><span><b>GitHub:</b> guarda tu proyecto en la nube, con historial. Gratis.</span></li>
+      <li><span><b>Cloudflare:</b> conecta el repositorio y tu web sale con su dirección. Gratis para empezar.</span></li>
+      <li><span><b>Cada cambio que subes</b> se publica solo.</span></li>
+    </ol>
+    <aside class="notas"><ul>
+      <li>Pídele a Claude Code: «súbelo a un repositorio nuevo de GitHub».</li>
+      <li>En Cloudflare: Workers y Pages → Crear → Importar repositorio.</li>
+      <li>Enseña la dirección final en el móvil: es el momento «wow».</li>
+    </ul></aside>
+  </div></section>
+
+  <section class="cap" data-nombre="¿Te ve ChatGPT?" data-min="6"><div>
+    <span class="eti">Lo que casi nadie revisa</span>
+    <h2>¿Puede ChatGPT leer y recomendar esta web?</h2>
+    <p>Los buscadores de IA <b>no ejecutan JavaScript</b>: si tu web solo funciona con él, para ChatGPT está vacía. Lo medimos con mi auditor, en directo.</p>
+    <div class="acc"><a class="btn" href="https://www.andresrendon.com/auditoria-aeo" target="_blank" rel="noopener">Abrir el auditor IA</a></div>
+    <aside class="notas"><ul>
+      <li>Audita la web que acabáis de publicar y comenta la nota.</li>
+      <li>Ejemplo real: Avancés Campus, 92/100.</li>
+    </ul></aside>
+  </div></section>
+
+  <section class="cap" data-nombre="Cómo se cobra" data-min="10"><div>
+    <span class="eti">Monta tu agencia de IA</span>
+    <h2>No vendas webs primero. Vende un diagnóstico.</h2>
+    <p>Un negocio no compra «una web»: compra que le encuentren y le escriban. Empieza por entender su problema.</p>
+    <div class="escalera">
+      <div><span><b>1. Diagnóstico</b><br>auditoría del negocio y de su web</span><em>el primer encargo</em></div>
+      <div><span><b>2. Implementación</b><br>web, asistente con IA, automatizaciones</span><em>web desde 390 €</em></div>
+      <div><span><b>3. Cuota mensual</b><br>mantenimiento y mejoras</span><em>desde 29 €/mes</em></div>
+      <div><span><b>4. Formación</b><br>enseñar al equipo del negocio</span><em>más adelante</em></div>
+    </div>
+    <aside class="notas"><ul>
+      <li>Explica la escalera de abajo arriba: primero confianza, luego proyecto, luego cuota.</li>
+      <li>Precios: son los tuyos actuales. No prometas cifras de ingresos.</li>
+      <li>Tarea para casa: encontrar un negocio de su calle y auditarlo.</li>
+    </ul></aside>
+  </div></section>
+
+  <section class="cap" data-nombre="Preguntas" data-min="10"><div>
+    <span class="eti">Tu turno</span>
+    <h2>Preguntas del directo</h2>
+    <p>Escríbelas en el chat. Si hoy no da tiempo, las respondo en el próximo directo.</p>
+    <aside class="notas"><ul>
+      <li>Responde las 5 más repetidas. Apunta las demás para el directo #2.</li>
+      <li>Anuncia el directo #2: «El diagnóstico: cómo auditar un negocio con IA».</li>
+    </ul></aside>
+  </div></section>
+
+  <section class="cap" data-nombre="Deberes" data-min="3"><div>
+    <span class="eti">Al final del túnel</span>
+    <h2>Tus deberes para el directo #2</h2>
+    <ol class="lista num">
+      <li><span>Publica tu primera web y pásame el enlace por Instagram.</span></li>
+      <li><span>Elige un negocio de tu calle y pásalo por el auditor IA.</span></li>
+      <li><span>Activa la campana para el directo #2.</span></li>
+    </ol>
+    <div class="acc">
+      <a class="btn" href="https://www.instagram.com/andresrendon.ai/" target="_blank" rel="noopener">Sígueme en Instagram</a>
+      <a class="btn btn-2" href="https://www.andresrendon.com/auditoria-aeo" target="_blank" rel="noopener">Auditoría IA gratis</a>
+    </div>
+    <aside class="notas"><ul>
+      <li>Repite la llamada a la acción una sola vez y despide el directo.</li>
+      <li>Después: corta 3 Shorts (el prompt, la web publicada, la escalera de precios).</li>
+    </ul></aside>
+  </div></section>
+</main>
+
+<nav class="nav" id="nav" aria-label="Estaciones del directo"></nav>
+<div class="ayuda" id="ayuda"><kbd>→</kbd> siguiente · <kbd>N</kbd> notas · <kbd>F</kbd> pantalla completa</div>
+<section class="panel" id="panel" aria-live="polite">
+  <header><span id="pEst">1/12</span><span id="pReloj">00:00</span></header>
+  <div class="meta" id="pMeta"></div>
+  <div id="pNotas"></div>
+</section>
+
+<script type="module">
+const raiz = document.documentElement;
+const caps = [...document.querySelectorAll('.cap')];
+const N = caps.length;
+const mov = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PANT = 120; // vh de scroll por estación
+
+/* Copiar el prompt */
+document.getElementById('copiar').addEventListener('click', async ev => {
+  const txt = document.getElementById('prompt').firstChild.textContent.trim();
+  try { await navigator.clipboard.writeText(txt); ev.target.textContent = 'Copiado'; } catch { ev.target.textContent = 'Selecciónalo y copia'; }
+  setTimeout(() => ev.target.textContent = 'Copiar', 1800);
+});
+
+/* Estación actual, navegación con teclado y panel del presentador */
+let actual = 0, inicio = null, destino = null;
+const total = caps.reduce((s, c) => s + (+c.dataset.min || 0), 0);
+const panel = document.getElementById('panel');
+const irA = i => {
+  i = Math.max(0, Math.min(N - 1, i));
+  destino = i;
+  if (raiz.classList.contains('tunel')) scrollTo({ top: i * PANT / 100 * innerHeight, behavior: 'smooth' });
+  else caps[i].scrollIntoView({ behavior: 'smooth' });
+};
+function pintarPanel(){
+  const c = caps[actual];
+  const hasta = caps.slice(0, actual).reduce((s, x) => s + (+x.dataset.min || 0), 0);
+  document.getElementById('pEst').textContent = `${actual + 1}/${N} · ${c.dataset.nombre}`;
+  document.getElementById('pMeta').textContent = `Unos ${c.dataset.min} min aquí · empieza hacia el minuto ${hasta} de ${total}`;
+  const notas = c.querySelector('.notas');
+  document.getElementById('pNotas').innerHTML = notas ? notas.innerHTML : '';
+}
+const fijarActual = i => { if (i !== actual) { actual = i; pintarPanel(); } if (destino === i) destino = null; };
+const base = () => destino ?? actual;
+addEventListener('wheel', () => { destino = null; }, { passive: true });
+addEventListener('touchstart', () => { destino = null; }, { passive: true });
+setInterval(() => {
+  if (inicio === null) return;
+  const s = Math.floor((Date.now() - inicio) / 1000);
+  document.getElementById('pReloj').textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+}, 500);
+addEventListener('keydown', ev => {
+  if (ev.target.closest('input,textarea')) return;
+  const k = ev.key;
+  if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(k)) { ev.preventDefault(); if (inicio === null) inicio = Date.now(); irA(base() + 1); }
+  else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(k)) { ev.preventDefault(); irA(base() - 1); }
+  else if (k === 'Home') irA(0);
+  else if (k === 'End') irA(N - 1);
+  else if (k === 'n' || k === 'N') { panel.classList.toggle('on'); pintarPanel(); }
+  else if (k === 'f' || k === 'F') { document.fullscreenElement ? document.exitFullscreen() : raiz.requestFullscreen?.(); }
+  else if (k === 't' || k === 'T') { inicio = Date.now(); }
+});
+pintarPanel();
+
+let THREE, EffectComposer, RenderPass, UnrealBloomPass, OutputPass;
+const webgl = (() => { try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; } })();
+if (mov || !webgl) modoEstatico();
+else {
+  try {
+    THREE = await import('three');
+    ({ EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js'));
+    ({ RenderPass } = await import('three/addons/postprocessing/RenderPass.js'));
+    ({ UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js'));
+    ({ OutputPass } = await import('three/addons/postprocessing/OutputPass.js'));
+    iniciar();
+  } catch (e) { console.warn('Sin túnel:', e); modoEstatico(); }
+}
+
+function modoEstatico(){
+  raiz.classList.add('estatico');
+  const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) fijarActual(caps.indexOf(e.target)); }), { threshold: 0.5 });
+  caps.forEach(c => obs.observe(c));
+}
+
+function iniciar(){
+  raiz.classList.add('tunel');
+  document.querySelector('.capitulos').style.setProperty('--alto', (PANT * (N - 1) + 100) + 'vh');
+
+  const lienzo = document.getElementById('escena');
+  const ren = new THREE.WebGLRenderer({ canvas: lienzo, antialias: false, powerPreference: 'high-performance' });
+  let pr = Math.min(devicePixelRatio, 1.75);
+  ren.setPixelRatio(pr); ren.setSize(innerWidth, innerHeight);
+  const escena = new THREE.Scene();
+  escena.background = new THREE.Color(0x060a2e);
+  escena.fog = new THREE.FogExp2(0x060a2e, 0.018);
+  const cam = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.1, 400);
+
+  const pts = [], LARGO = 520, TRAMOS = 26;
+  for (let i = 0; i <= TRAMOS; i++) pts.push(new THREE.Vector3(Math.sin(i * 0.55) * 9, Math.cos(i * 0.42) * 5, -i * (LARGO / TRAMOS)));
+  const curva = new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.5);
+  const R = 7;
+
+  const matTubo = new THREE.ShaderMaterial({
+    side: THREE.BackSide, fog: false,
+    uniforms: { uT: { value: 0 }, uVel: { value: 0 }, uA: { value: new THREE.Color(0xff5a3c) }, uB: { value: new THREE.Color(0x4d6bff) } },
+    vertexShader: `varying vec2 vUv; varying float vD; void main(){ vUv=uv; vec4 mv=modelViewMatrix*vec4(position,1.); vD=-mv.z; gl_Position=projectionMatrix*mv; }`,
+    fragmentShader: `uniform float uT,uVel; uniform vec3 uA,uB; varying vec2 vUv; varying float vD;
+      float linea(float x,float w){ float f=abs(fract(x)-.5); return smoothstep(.5-w,.5,f); }
+      void main(){
+        float a=vUv.x*200., r=vUv.y*24.;
+        float g=max(linea(a,.035),linea(r,.03)*.7);
+        float pulso=pow(fract(vUv.x*14.-uT*.25),18.)*1.4;
+        float vena=smoothstep(.985,1.,sin(vUv.y*6.2832*3.+vUv.x*40.+uT*.6)*.5+.5);
+        vec3 c=mix(uA,uB,smoothstep(.2,.8,sin(vUv.x*9.+vUv.y*6.2832)*.5+.5));
+        vec3 col=c*(g*.55+pulso*g*1.6+vena*.6)+vec3(.012,.01,.016);
+        col*=1.+uVel*.8;
+        gl_FragColor=vec4(col*exp(-vD*.028),1.);
+      }`
+  });
+  escena.add(new THREE.Mesh(new THREE.TubeGeometry(curva, 800, R, 48, false), matTubo));
+
+  const anillos = [], geoAn = new THREE.TorusGeometry(R * 0.93, 0.05, 8, 96);
+  for (let i = 1; i < 54; i++) {
+    const t = i / 54;
+    const m = new THREE.Mesh(geoAn, new THREE.MeshBasicMaterial({ color: i % 4 ? 0x4d6bff : 0xff5a3c, transparent: true, opacity: 0.85 }));
+    m.position.copy(curva.getPointAt(t)); m.lookAt(curva.getPointAt(Math.min(t + 0.001, 1)));
+    escena.add(m); anillos.push(m);
+  }
+
+  const NP = innerWidth < 760 ? 900 : 1800, pos = new Float32Array(NP * 3);
+  for (let i = 0; i < NP; i++) {
+    const p = curva.getPointAt(Math.random()), ang = Math.random() * Math.PI * 2, rr = R * (0.2 + Math.random() * 0.7);
+    pos.set([p.x + Math.cos(ang) * rr, p.y + Math.sin(ang) * rr, p.z], i * 3);
+  }
+  const gp = new THREE.BufferGeometry(); gp.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const polvo = new THREE.Points(gp, new THREE.PointsMaterial({ color: 0xdfe5ff, size: 0.07, transparent: true, opacity: 0.8, depthWrite: false }));
+  escena.add(polvo);
+
+  const paradas = caps.map((_, i) => 0.03 + i * (0.9 / (N - 1)));
+
+  // Número de cada estación flotando en el túnel, a la derecha del camino
+  const movil = () => innerWidth < 760;
+  const marcas = caps.map((c, i) => {
+    const cv = document.createElement('canvas'); cv.width = 512; cv.height = 256;
+    const x = cv.getContext('2d');
+    x.fillStyle = i % 2 ? '#6f86ff' : '#ff5a3c'; x.font = '900 150px Archivo, sans-serif'; x.fillText(String(i + 1).padStart(2, '0'), 20, 160);
+    x.fillStyle = '#f1f3ff'; x.font = '600 40px Archivo, sans-serif'; x.fillText(c.dataset.nombre, 24, 225);
+    const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 1.6), new THREE.MeshBasicMaterial({ map: tex, transparent: true, toneMapped: false, fog: true, depthWrite: false }));
+    escena.add(m); return m;
+  });
+  function colocarMarcas(){
+    marcas.forEach((m, i) => {
+      const t = Math.min(paradas[i] + 0.012, 0.99), p = curva.getPointAt(t), tg = curva.getTangentAt(t);
+      const lado = new THREE.Vector3().crossVectors(tg, new THREE.Vector3(0, 1, 0)).normalize();
+      m.visible = !movil();
+      m.position.copy(p).addScaledVector(lado, 3.4).add(new THREE.Vector3(0, 1.2, 0));
+      m.lookAt(p.clone().sub(tg.clone().multiplyScalar(8)));
+    });
+  }
+  colocarMarcas();
+
+  const cvL = document.createElement('canvas'); cvL.width = cvL.height = 256;
+  const xL = cvL.getContext('2d'), gL = xL.createRadialGradient(128,128,0,128,128,128);
+  gL.addColorStop(0,'rgba(245,247,255,1)'); gL.addColorStop(.25,'rgba(200,210,255,.85)'); gL.addColorStop(.6,'rgba(255,90,60,.25)'); gL.addColorStop(1,'rgba(255,90,60,0)');
+  xL.fillStyle = gL; xL.fillRect(0,0,256,256);
+  const luz = new THREE.Mesh(new THREE.PlaneGeometry(R * 3.2, R * 3.2), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(cvL), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false, fog: false }));
+  luz.position.copy(curva.getPointAt(0.995)); luz.lookAt(curva.getPointAt(0.99)); escena.add(luz);
+
+  const comp = new EffectComposer(ren);
+  comp.addPass(new RenderPass(escena, cam));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.7, 0.5, 0.32);
+  comp.addPass(bloom); comp.addPass(new OutputPass());
+  let conBloom = true;
+
+  const nav = document.getElementById('nav');
+  nav.innerHTML = caps.map((c, i) => `<button data-ir="${i}" aria-label="Ir a ${c.dataset.nombre}"><span>${c.dataset.nombre}</span><i></i></button>`).join('');
+  document.addEventListener('click', ev => { const b = ev.target.closest('[data-ir]'); if (b) { ev.preventDefault(); irA(+b.dataset.ir); } });
+
+  const suave = u => { const a = 0.28, b = 0.72; if (u <= a) return 0; if (u >= b) return 1; const v = (u - a) / (b - a); return v * v * (3 - 2 * v); };
+  let prog = 0, progVis = 0, velVis = 0;
+  const leerScroll = () => { prog = Math.min(Math.max(scrollY / (innerHeight * PANT / 100), 0), N - 1); };
+  addEventListener('scroll', leerScroll, { passive: true }); leerScroll();
+  let mx = 0, my = 0;
+  addEventListener('pointermove', ev => { mx = ev.clientX / innerWidth - .5; my = ev.clientY / innerHeight - .5; });
+  addEventListener('resize', () => { cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); ren.setSize(innerWidth, innerHeight); comp.setSize(innerWidth, innerHeight); colocarMarcas(); });
+
+  const reloj = new THREE.Clock();
+  let fpsT = 0, fpsN = 0, lentos = 0;
+  const ayuda = document.getElementById('ayuda'), botones = [...nav.children];
+  function cuadro(){
+    const dt = Math.min(reloj.getDelta(), 0.05), t = reloj.elapsedTime;
+    const antes = progVis;
+    progVis += (prog - progVis) * Math.min(1, dt * 4.5);
+    velVis += (Math.min(Math.abs(progVis - antes) / Math.max(dt, 1e-3), 2) - velVis) * 0.1;
+    const k = Math.min(Math.floor(progVis), N - 2), u = progVis - k;
+    const tt = paradas[k] + (paradas[k + 1] - paradas[k]) * suave(u);
+    cam.position.copy(curva.getPointAt(tt)).add(new THREE.Vector3(mx * 0.9, -my * 0.6, 0));
+    cam.lookAt(curva.getPointAt(Math.min(tt + 0.012, 1)));
+    cam.fov = 70 + velVis * 14; cam.updateProjectionMatrix();
+    matTubo.uniforms.uT.value = t; matTubo.uniforms.uVel.value = velVis;
+    anillos.forEach(a => { a.material.opacity = Math.max(0.1, Math.min(1, 1.6 - a.position.distanceTo(cam.position) / 40)); });
+    polvo.rotation.z = Math.sin(t * 0.05) * 0.02;
+    const finCerca = Math.max(0, (tt - paradas[N - 2]) / (1 - paradas[N - 2]));
+    luz.material.opacity = Math.min(0.9, finCerca * 1.1);
+    bloom.strength = 0.65 + velVis * 0.45 - finCerca * 0.3;
+    caps.forEach((c, i) => {
+      const d = progVis - i, o = Math.max(0, 1 - Math.abs(d) * 2.6);
+      c.style.opacity = o.toFixed(3); c.style.setProperty('--d', (-d).toFixed(3));
+      c.classList.toggle('vista', o > 0.05);
+    });
+    const act = Math.round(prog);
+    botones.forEach((b, i) => b.classList.toggle('on', i === act));
+    fijarActual(act);
+    ayuda.style.opacity = progVis < 0.15 ? 1 : 0;
+    if (conBloom) comp.render(); else ren.render(escena, cam);
+    fpsT += dt; fpsN++;
+    if (fpsT > 1.5) {
+      const fps = fpsN / fpsT; fpsT = 0; fpsN = 0;
+      if (fps < 38 && ++lentos >= 2) {
+        if (pr > 1) { pr = Math.max(1, pr - 0.5); ren.setPixelRatio(pr); comp.setPixelRatio(pr); }
+        else if (conBloom) conBloom = false;
+        lentos = 0;
+      }
+    }
+    requestAnimationFrame(cuadro);
+  }
+  requestAnimationFrame(cuadro);
+}
+</script>
+</body>
+</html>
